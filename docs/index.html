@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font:14px system-ui,sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>Casa de la Luz</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Alegreya+Sans:wght@400;500;700&family=Frank+Ruhl+Libre:wght@400;500&display=swap">
+<style>
+/* Layout: santuario nocturno. Umbral con sello custodiado por los cuatro arcángeles y un muro de luz de ocho tradiciones;
+   después salas: vitrinas de símbolos, pliegos de rituales filtrables por intención, facultades, sala de comprobación, biblioteca. */
+:root{
+  color-scheme:dark;
+  --deep:#070b24; --night:#101848; --lapis:#2338a0; --gold:#e6c477; --gold-soft:#f5e6bb;
+  --ink:#eef0fb; --mute:#aeb5da; --rose:#e3a0bd; --teal:#86dccf; --violet:#8a6bd6;
+  --glass:rgba(255,255,255,.06); --glass-hi:rgba(255,255,255,.15); --edge:rgba(255,255,255,.17);
+  --shine:rgba(255,255,255,.38); --shadow:rgba(1,3,18,.7); --well:rgba(7,11,36,.55);
+  --display:"Marcellus","Cormorant Garamond",Georgia,serif;
+  --body:"Alegreya Sans","Segoe UI",system-ui,sans-serif;
+  --hebrew:"Frank Ruhl Libre","Times New Roman",serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--deep);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.58}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--deep)}
+.sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background:radial-gradient(65vmax 55vmax at 12% 8%,rgba(35,56,160,.8),transparent 70%),
+             radial-gradient(50vmax 45vmax at 92% 28%,rgba(138,107,214,.4),transparent 70%),
+             radial-gradient(60vmax 45vmax at 50% 108%,rgba(230,196,119,.24),transparent 70%),var(--deep)}
+.sky i{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;animation:drift 40s ease-in-out infinite alternate}
+.sky i:nth-child(2){width:36vmax;height:36vmax;left:-10vmax;top:36%;background:var(--lapis)}
+.sky i:nth-child(3){width:26vmax;height:26vmax;right:-6vmax;top:60%;background:rgba(134,220,207,.5);animation-delay:-12s}
+.sky i:nth-child(4){width:22vmax;height:22vmax;left:42%;top:-8vmax;background:rgba(230,196,119,.45);animation-delay:-25s}
+.sky canvas{position:absolute;inset:0;width:100%;height:100%}
+@keyframes drift{to{transform:translate(4vmax,-3vmax) scale(1.12)}}
+.wrap{position:relative;z-index:1;max-width:1160px;margin-inline:auto;padding-block:0 4rem;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.7rem,8vw,5.2rem);letter-spacing:.02em;line-height:1.04;
+  background:linear-gradient(120deg,var(--ink) 20%,var(--gold-soft) 55%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:clamp(1.9rem,4.5vw,2.7rem);color:var(--gold-soft)}
+h3{font-size:1.3rem}
+p{margin:0} a{color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:8px}
+.heb{font-family:var(--hebrew);direction:rtl;font-size:1.45rem;line-height:1.6;color:var(--gold-soft)}
+.eyebrow{font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:.7rem}
+.eyebrow::before{content:"";width:9px;height:9px;border:1px solid var(--gold);transform:rotate(45deg);flex:none}
+.eyebrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--edge),transparent)}
+.glass{position:relative;background:linear-gradient(145deg,var(--glass-hi),var(--glass) 42%,rgba(255,255,255,.025));
+  -webkit-backdrop-filter:blur(26px) saturate(160%);backdrop-filter:blur(26px) saturate(160%);
+  border:1px solid var(--edge);border-radius:26px;
+  box-shadow:inset 0 1px 0 var(--shine),inset 0 -1px 0 rgba(255,255,255,.06),inset 0 0 28px rgba(255,255,255,.035),0 26px 60px -30px var(--shadow)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 60% at 12% -10%,rgba(255,255,255,.2),transparent 55%)}
+.glass>*{position:relative}
+
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;padding-block:.6rem}
+nav .bar{display:flex;gap:.2rem;overflow-x:auto;padding:.35rem;border-radius:999px;scrollbar-width:none}
+nav a{flex:none;padding:.45rem .85rem;border-radius:999px;color:var(--ink);text-decoration:none;font-weight:500;font-size:.95rem}
+nav a:hover{background:var(--glass-hi)}
+
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:2rem;align-items:center;padding-block:2.2rem 2.6rem}
+.hero .lead{font-size:1.2rem;color:var(--mute);max-width:52ch;margin-top:1rem}
+.hero .heb{font-size:2rem;margin-top:.3rem;text-align:left}
+.vow{margin-top:1.3rem;padding:1rem 1.2rem;border-radius:18px;max-width:56ch}
+.seal{max-width:440px;width:100%;justify-self:center;aspect-ratio:1;position:relative;padding:9%}
+.seal svg{width:100%;height:100%;overflow:visible}
+.seal .ga{animation:turn 260s linear infinite}.seal .gb{animation:turn 180s linear infinite reverse}
+.seal::before{content:"";position:absolute;inset:20%;border-radius:50%;background:radial-gradient(circle,rgba(230,196,119,.42),transparent 70%);filter:blur(20px)}
+.seal b{position:absolute;font-family:var(--display);font-weight:400;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft);text-align:center;line-height:1.2}
+.seal b small{display:block;font-family:var(--hebrew);font-size:1.05rem;letter-spacing:0;color:var(--gold)}
+.seal .n{top:-4%;left:50%;transform:translateX(-50%)}.seal .s{bottom:-4%;left:50%;transform:translateX(-50%)}
+.hero{overflow-x:clip}
+.seal .e{right:0;top:50%;transform:translateY(-50%)}.seal .w{left:0;top:50%;transform:translateY(-50%)}
+@keyframes turn{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.seal .ga,.seal .gb,.sky i{animation:none}html{scroll-behavior:auto}}
+
+section{padding-block:2.6rem;display:grid;gap:1.4rem;scroll-margin-top:5rem}
+.intro{color:var(--mute);max-width:70ch}
+.grid{display:grid;gap:1.2rem;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}
+.card{padding:1.3rem;display:grid;gap:.9rem;align-content:start;min-width:0}
+.plate{aspect-ratio:1;border-radius:18px;background:radial-gradient(circle at 50% 38%,rgba(35,56,160,.6),var(--well));border:1px solid var(--edge);display:grid;place-items:center;padding:8%;transition:box-shadow .4s}
+.card:hover .plate{box-shadow:0 0 40px -6px rgba(230,196,119,.35),inset 0 0 30px rgba(230,196,119,.08)}
+svg.sym{width:100%;height:100%;fill:none;stroke:var(--gold);stroke-width:1.3;stroke-linejoin:round;stroke-linecap:round;overflow:visible;filter:drop-shadow(0 0 5px rgba(230,196,119,.35))}
+svg.sym *{vector-effect:non-scaling-stroke}
+svg.sym text{stroke:none;fill:var(--ink);font-family:var(--body)}
+svg.sym .fillbg{fill:var(--deep)} svg.sym .fillgold{fill:var(--gold);stroke:none}
+svg.sym .thin{stroke-width:.6;opacity:.7} svg.sym .dot{fill:var(--gold);stroke:none}
+.chip{display:inline-block;font-size:.78rem;letter-spacing:.05em;padding:.2rem .65rem;border-radius:999px;border:1px solid var(--edge);color:var(--gold-soft);background:rgba(230,196,119,.1)}
+.chip.ok{color:var(--teal);background:rgba(134,220,207,.12)} .chip.no{color:var(--rose);background:rgba(227,160,189,.12)} .chip.t{color:var(--ink);background:rgba(255,255,255,.07)}
+dl{margin:0;display:grid;gap:.55rem}
+dt{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+dd{margin:0}
+.wall{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,255px),1fr))}
+.wall .card{gap:.5rem;padding:1.1rem 1.2rem}
+.wall em{font-style:normal;color:var(--gold-soft);font-size:1.1rem}
+.wall p{color:var(--mute);font-size:.97rem}
+.note{padding:1.1rem 1.3rem;border-radius:18px;color:var(--mute);max-width:80ch}
+.note strong{color:var(--ink)}
+
+.filters{display:flex;flex-wrap:wrap;gap:.45rem}
+.filters button,.btn{font:inherit;font-weight:500;color:var(--ink);cursor:pointer;padding:.45rem .95rem;border-radius:999px;border:1px solid var(--edge);background:var(--glass)}
+.filters button[aria-pressed="true"],.btn.main{background:linear-gradient(135deg,var(--gold-soft),var(--gold));color:#1a1530;border-color:transparent}
+details.rite{overflow:hidden}
+details.rite summary{list-style:none;cursor:pointer;padding:1.05rem 1.3rem;display:flex;gap:.6rem 1rem;align-items:center;flex-wrap:wrap}
+details.rite summary::-webkit-details-marker{display:none}
+details.rite summary .when{color:var(--mute);font-size:.94rem}
+details.rite summary::after{content:"+";font-family:var(--display);font-size:1.6rem;line-height:1;color:var(--gold);margin-left:auto}
+details.rite[open] summary::after{content:"–"}
+.rite .body{padding:0 1.3rem 1.4rem;display:grid;gap:1rem}
+.rite ol.steps{margin:0;padding-left:1.3rem;display:grid;gap:.5rem}
+.say{padding:1rem 1.2rem;border-radius:16px;background:var(--well);border:1px solid var(--edge);display:grid;gap:.45rem}
+.say em{color:var(--gold-soft);font-style:normal;font-size:1.08rem}
+.say small{color:var(--mute);font-size:.96rem}
+.verses{margin:0;padding:1.1rem 1.2rem 1.1rem 2.6rem;border-radius:16px;background:var(--well);border:1px solid var(--edge);display:grid;gap:.4rem}
+.verses li::marker{color:var(--gold);font-size:.85rem}
+.verses-t{font-family:var(--display);color:var(--gold-soft);font-size:1.1rem}
+.stack{display:grid;gap:.9rem}
+
+.lab{padding:1.4rem;display:grid;gap:1rem}
+.lab .choices{display:flex;flex-wrap:wrap;gap:.6rem}
+.lab .choices button{font-size:1.9rem;width:4rem;height:4rem;border-radius:18px;border:1px solid var(--edge);background:var(--well);color:var(--gold-soft);cursor:pointer}
+.lab .choices button:disabled{opacity:.45;cursor:default}
+.lab .out{min-height:1.6em;color:var(--gold-soft)}
+.lab .score{font-variant-numeric:tabular-nums;color:var(--mute)}
+.today{padding:1.4rem;display:grid;gap:1rem}
+.today ul{list-style:none;margin:0;padding:0;display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.today label{display:flex;gap:.7rem;align-items:flex-start;padding:.7rem .9rem;border-radius:14px;border:1px solid var(--edge);background:var(--well);cursor:pointer}
+.today input{accent-color:var(--gold);width:1.15rem;height:1.15rem;margin-top:.2rem;flex:none}
+.today small{color:var(--mute);display:block}
+.books{display:grid;gap:.7rem;margin:0;padding:0;list-style:none;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.books li{padding:.9rem 1.1rem;border-radius:16px;border:1px solid var(--edge);background:var(--well)}
+.books b{font-family:var(--display);font-weight:400;font-size:1.08rem;color:var(--gold-soft);display:block}
+.books span{color:var(--mute);font-size:.97rem}
+h3.sub{color:var(--gold-soft);margin-top:.6rem}
+.reader{position:fixed;inset:0;z-index:20;overflow:auto;background:rgba(4,6,22,.78);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  padding:calc(env(safe-area-inset-top,0px) + 16px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 24px) max(16px,env(safe-area-inset-left,0px))}
+.sheet{max-width:780px;margin-inline:auto;padding:1.6rem clamp(1.1rem,4vw,2.4rem) 2rem;display:grid;gap:1rem;background:linear-gradient(160deg,rgba(35,56,160,.42),rgba(10,15,44,.9) 40%)}
+.sheet .top{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.prose{display:grid;gap:.85rem;max-width:66ch}
+.prose h3{color:var(--gold-soft);margin-top:1rem;font-size:1.45rem}
+.prose h4{font-family:var(--display);font-weight:400;font-size:1.15rem;color:var(--gold);margin:.5rem 0 0}
+.prose p,.prose li{font-size:1.06rem;line-height:1.7}
+.prose ol,.prose ul{margin:0;padding-left:1.3rem;display:grid;gap:.45rem}
+.prose blockquote{margin:0;padding:.9rem 1.1rem;border-radius:14px;background:var(--well);border:1px solid var(--edge);color:var(--gold-soft)}
+.prose .src{color:var(--mute);font-size:.95rem}
+.acts{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap}
+footer{padding-block:2rem 0;color:var(--mute);text-align:center;display:grid;gap:.5rem;justify-items:center}
+footer svg{width:90px;height:90px}
+@media (max-width:760px){.hero{grid-template-columns:1fr;padding-block:1.5rem 2rem}.seal{max-width:270px;order:-1;margin-block:1.2rem}}
+</style>
+
+<div class="sky" aria-hidden="true"><canvas id="stars"></canvas><i></i><i></i><i></i></div>
+<div class="wrap">
+  <nav aria-label="Salas"><div class="bar glass">
+    <a href="#umbral">Umbral</a><a href="#simbolos">Símbolos</a><a href="#rituales">Rituales</a>
+    <a href="#facultades">Facultades</a><a href="#comprobar">Comprobación</a><a href="#archivos">Archivos</a><a href="#angeles">Ángeles</a><a href="#contacto">Contacto</a><a href="#hoy">Hoy</a><a href="#biblioteca">Biblioteca</a>
+  </div></nav>
+
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Geometría sagrada · tradiciones de luz</p>
+      <h1>Casa de la Luz</h1>
+      <p class="heb" lang="he">בית האור</p>
+      <p class="lead">Símbolos antiguos dibujados con su geometría, oraciones y rituales enteros de ocho tradiciones, y un camino para entrenar la percepción y comprobarlo vos mismo.</p>
+      <div class="vow glass"><p>Quien entra, entra en paz. Lo que acá se aprende se usa solo para el bien, propio y ajeno. De lo irreal a lo real, de la oscuridad a la luz.</p></div>
+    </div>
+    <div class="seal">
+      <div id="heroSeal" aria-hidden="true" style="width:100%;height:100%"></div>
+      <b class="n">Uriel<small lang="he">אוריאל</small></b><b class="e">Mijael<small lang="he">מיכאל</small></b>
+      <b class="s">Rafael<small lang="he">רפאל</small></b><b class="w">Gabriel<small lang="he">גבריאל</small></b>
+    </div>
+  </header>
+
+  <section id="umbral">
+    <p class="eyebrow">Primera sala</p>
+    <h2>El muro de luz</h2>
+    <p class="intro">Alrededor del sello de entrada están los cuatro arcángeles, como en la oración judía de la noche: Mijael a la derecha, Gabriel a la izquierda, Uriel delante, Rafael detrás. Y abajo, las palabras con que ocho tradiciones piden protección y luz desde hace milenios. Leelas despacio al entrar.</p>
+    <div class="wall" id="wall"></div>
+    <div class="note glass"><p><strong>Cómo se cuida este lugar.</strong> Todo lo que hay acá es de bendición, protección y crecimiento. Quedan afuera la evocación de demonios, los amarres, las maldiciones y cualquier práctica para dominar la voluntad de otro. Cada cosa dice de dónde viene y cuán antigua es de verdad. Las tradiciones coinciden en que lo que protege es la práctica: palabra recta, bondad, constancia. Un texto en una pantalla acompaña esa práctica y no la reemplaza.</p></div>
+  </section>
+
+  <section id="simbolos">
+    <p class="eyebrow">Segunda sala</p>
+    <h2>Símbolos</h2>
+    <p class="intro">Diecinueve figuras de Oriente y Occidente, trazadas con su geometría. Un símbolo es un mapa para la atención: se contempla, se dibuja a mano y se estudia.</p>
+    <div class="grid" id="symGrid"></div>
+  </section>
+
+  <section id="rituales">
+    <p class="eyebrow">Tercera sala</p>
+    <h2>Rituales y oraciones enteras</h2>
+    <p class="intro">Elegí por intención. Cada pliego trae para qué sirve, los pasos y el texto completo. Sostené una práctica cuarenta días antes de juzgarla. En el amor no hay amarres: lo que fuerza la voluntad de otro no es de luz, y acá no entra.</p>
+    <div class="filters" id="filters" role="group" aria-label="Intención"></div>
+    <div class="stack" id="riteList"></div>
+  </section>
+
+  <section id="facultades">
+    <p class="eyebrow">Cuarta sala</p>
+    <h2>Facultades sutiles</h2>
+    <p class="intro">Lo que enseñan los textos clásicos del yoga, el budismo, la Cábala, el sufismo y el cristianismo sobre ver, oír y saber más allá de lo ordinario: cómo las llaman, con qué método las cultivan y qué advierten. Cada una termina con una forma de ponerla a prueba sin engañarte.</p>
+    <div class="stack" id="facList"></div>
+    <div class="note glass"><p><strong>La advertencia que repiten todas.</strong> Patanjali (Yoga Sutras III.37) llama a estos poderes obstáculos para la meta. El Buda prohibió a sus monjes exhibirlos y dijo que el único milagro que vale es el de la enseñanza (Kevatta Sutta). Jaim Vital pone la pureza de carácter antes que cualquier técnica. Y una señal práctica: si algo te quita el sueño, te aísla, te da miedo sostenido, o aparecen voces que ordenan o amenazan, frená y hablalo con un profesional de salud mental y con alguien de confianza.</p></div>
+  </section>
+
+  <section id="comprobar">
+    <p class="eyebrow">Quinta sala</p>
+    <h2>Sala de comprobación</h2>
+    <div class="lab glass">
+      <p class="intro">Para probar en carne propia. La página ya eligió en secreto una de cinco figuras. Aquietate, percibí cuál es y tocala. Por puro azar se acierta 1 de cada 5. Recién después de 100 intentos el número dice algo: el azar da entre 12 y 28 aciertos; más de 28, sostenido en varias tandas, merece atención.</p>
+      <div class="choices" id="labChoices"></div>
+      <p class="out" id="labOut" aria-live="polite">Respirá tres veces antes de cada intento.</p>
+      <p class="score" id="labScore"></p>
+      <div><button class="btn" id="labReset" type="button">Empezar una tanda nueva</button></div>
+    </div>
+  </section>
+
+  <section id="archivos">
+    <p class="eyebrow">Sala de archivos</p>
+    <h2>Archivos oficiales y ciencia de la realidad</h2>
+    <p class="intro">Documentos públicos de la CIA, el Ejército de EE. UU., la NASA y el FBI sobre conciencia, salida del cuerpo y percepción a distancia, con su enlace al original. Para cada uno: qué es, qué dice y qué no dice. Después, el trabajo de Jacobo Grinberg, lo que la física y la neurociencia sostienen hoy, y protocolos para probar todo en tu día a día.</p>
+    <div class="grid" id="docs"></div>
+    <div class="note glass"><p><strong>Lo que no existe.</strong> Busqué un documento de gobierno que demuestre que la realidad se controla con la mente, y no lo hay. El informe Gateway es la opinión de un oficial, no un experimento. El programa de visión remota duró más de veinte años y se cerró en 1995 porque no dio información útil. Lo que sí hay es más interesante que el mito: gobiernos que lo investigaron en serio, experiencias reales que se pueden provocar, y una ciencia que confirma que lo que percibís es una construcción de tu cerebro que se puede entrenar.</p></div>
+    <h3 class="sub">Jacobo Grinberg y la teoría sintérgica</h3>
+    <div class="stack" id="grin"></div>
+    <h3 class="sub">Lo que la ciencia sí sostiene</h3>
+    <ul class="books" id="facts"></ul>
+    <h3 class="sub">Protocolos para el día a día</h3>
+    <p class="intro">Cada uno tiene una regla: anotar antes de saber el resultado, contar aciertos y fallos, y comparar contra el azar o contra un período sin practicar.</p>
+    <div class="stack" id="protos"></div>
+  </section>
+
+  <section id="angeles">
+    <p class="eyebrow">Sala de los ángeles</p>
+    <h2>Los ángeles</h2>
+    <p class="intro">Cuatro lecturas largas para leer de corrido: quiénes son según cada tradición, los arcángeles uno por uno, las oraciones enteras con programas de práctica, y la historia completa de las conversaciones angélicas de John Dee.</p>
+    <div class="grid" id="lectAng"></div>
+  </section>
+
+  <section id="contacto">
+    <p class="eyebrow">Sala del contacto</p>
+    <h2>Comunicación con otros seres</h2>
+    <p class="intro">Ángeles, guías, maestros, antepasados e inteligencias no humanas: qué dice cada tradición, qué documentos oficiales existen y cómo se intenta el contacto con respeto y con protección. Acá solo se invita a seres de luz. Lo que pide daño, secreto o sometimiento se despide.</p>
+    <div class="grid" id="beings"></div>
+    <h3 class="sub">El libro de Abramelín, completo</h3>
+    <p class="intro">El retiro más famoso de Occidente para conocer al propio ángel, en tres lecturas. La tercera explica la parte de los espíritus tal como la cuenta el libro, como estudio histórico.</p>
+    <div class="grid" id="lectAbr"></div>
+    <h3 class="sub">Protocolos</h3>
+    <div class="stack" id="contactRites"></div>
+    <div class="note glass"><p><strong>Tres reglas de todas las tradiciones.</strong> Se llama solo hacia arriba y en nombre de lo más alto. Lo recibido se examina con el ritual «Discernir un mensaje» antes de creerlo o contarlo. Y se cierra siempre: agradecer, despedir y volver al cuerpo comiendo algo y caminando. El islam prohíbe buscar a los genios y el judaísmo prohíbe consultar a los muertos; por eso esas prácticas no están acá.</p></div>
+  </section>
+
+  <section id="hoy">
+    <p class="eyebrow">Sexta sala</p>
+    <h2>Práctica de hoy</h2>
+    <div class="today glass">
+      <p class="intro">Media hora repartida en el día. Las marcas se guardan solo en este dispositivo y se reinician cada mañana.</p>
+      <ul id="todayList"></ul>
+    </div>
+  </section>
+
+  <section id="biblioteca">
+    <p class="eyebrow">Séptima sala</p>
+    <h2>Biblioteca</h2>
+    <p class="intro">Textos difíciles de encontrar, apartados del canon o directamente prohibidos en su época, y dónde leerlos gratis. El primero va entero.</p>
+    <div class="stack" id="emerald"></div>
+    <h3 class="sub">Dónde está cada cosa</h3>
+    <ul class="books" id="hubs"></ul>
+    <h3 class="sub">Textos apartados, escondidos o prohibidos</h3>
+    <ul class="books" id="rare"></ul>
+    <h3 class="sub">Las fuentes de cada tradición</h3>
+    <ul class="books" id="canon"></ul>
+  </section>
+
+  <div class="reader" id="reader" hidden><div class="sheet glass" role="dialog" aria-modal="true" aria-labelledby="readerT">
+    <div class="top"><span class="chip" id="readerA"></span><button class="btn" id="readerX" type="button">Cerrar</button></div>
+    <h2 id="readerT"></h2><div class="prose" id="readerB"></div>
+    <div><button class="btn main" id="readerX2" type="button">Cerrar y volver</button></div>
+  </div></div>
+
+  <footer><div id="footSeal" aria-hidden="true"></div><p class="heb" lang="he">שלום · سلام · शान्ति</p><p>Que salgas con más paz de la que trajiste.</p></footer>
+</div>
+
+<script>
+/* ---------- Geometría ---------- */
+const T=Math.PI*2, f=n=>(+n).toFixed(2);
+const C=(x,y,r,cl)=>'<circle cx="'+f(x)+'" cy="'+f(y)+'" r="'+f(r)+'"'+(cl?' class="'+cl+'"':'')+'/>';
+const L=(a,b,cl)=>'<line x1="'+f(a[0])+'" y1="'+f(a[1])+'" x2="'+f(b[0])+'" y2="'+f(b[1])+'"'+(cl?' class="'+cl+'"':'')+'/>';
+const P=(pts,cl)=>'<polygon points="'+pts.map(p=>f(p[0])+','+f(p[1])).join(' ')+'"'+(cl?' class="'+cl+'"':'')+'/>';
+const svg=(inner,label)=>'<svg class="sym" viewBox="-110 -110 220 220" role="img" aria-label="'+label+'">'+inner+'</svg>';
+const ring=(n,d,off)=>Array.from({length:n},(_,k)=>[d*Math.cos(T*k/n+(off||0)),d*Math.sin(T*k/n+(off||0))]);
+
+function flowerCore(r){let s='';for(let q=-2;q<=2;q++)for(let t=-2;t<=2;t++){if(Math.abs(q+t)>2)continue;s+=C(r*(q+t/2),r*Math.sqrt(3)/2*t,r)}return s}
+function flower(){return flowerCore(25)+C(0,0,75)+C(0,0,79)}
+function seed(){return C(0,0,34)+ring(6,34).map(p=>C(p[0],p[1],34)).join('')+C(0,0,68)}
+function vesica(){return C(-30,0,60)+C(30,0,60)+L([0,-52],[0,52],'thin')+L([-30,0],[30,0],'thin')+P([[-30,0],[30,0],[0,-52]],'thin')}
+function metatron(){const pts=[[0,0]].concat(ring(6,30,-T/4),ring(6,60,-T/4));let s='';for(let i=0;i<13;i++)for(let j=i+1;j<13;j++)s+=L(pts[i],pts[j],'thin');return s+pts.map(p=>C(p[0],p[1],15)).join('')}
+function tree(){const n=[[0,-96,'Kéter'],[42,-72,'Jojmá'],[-42,-72,'Biná'],[42,-28,'Jésed'],[-42,-28,'Guevurá'],[0,-6,'Tiféret'],[42,36,'Nétzaj'],[-42,36,'Hod'],[0,58,'Yesod'],[0,96,'Maljut']];
+  const e=['1-2','1-3','1-6','2-3','2-4','2-6','3-5','3-6','4-5','4-6','4-7','5-6','5-8','6-7','6-8','6-9','7-8','7-9','7-10','8-9','8-10','9-10'];
+  let s=e.map(x=>{const a=x.split('-');return L(n[a[0]-1],n[a[1]-1])}).join('');
+  n.forEach((p,i)=>{s+=C(p[0],p[1],9,'fillbg');const side=p[0]>0?1:p[0]<0?-1:0;
+    s+='<text x="'+(side?p[0]+side*13:p[0]+13)+'" y="'+(p[1]+2.6)+'" font-size="8.5" text-anchor="'+(side<0?'end':'start')+'">'+p[2]+'</text>';
+    s+='<text x="'+p[0]+'" y="'+(p[1]+2.8)+'" font-size="8" text-anchor="middle">'+(i+1)+'</text>'});return s}
+function tetraktys(){let s=P([[0,-88],[-90,68],[90,68]],'thin');for(let r=0;r<4;r++)for(let k=0;k<=r;k++)s+=C((k-r/2)*40,-58+r*36,6,'dot');return s}
+function hexagram(){return P(ring(3,88,-T/4))+P(ring(3,88,T/4))+C(0,0,88,'thin')}
+function menorah(){let s=L([0,92],[0,-58])+L([-34,92],[34,92])+L([-20,84],[20,84]);[26,52,78].forEach(r=>{s+='<path d="M'+(-r)+' -58 V-14 A'+r+' '+r+' 0 0 0 '+r+' -14 V-58"/>'});
+  [-78,-52,-26,0,26,52,78].forEach(x=>{s+='<path class="dot" d="M'+x+' -82 Q'+(x+7)+' -70 '+x+' -64 Q'+(x-7)+' -70 '+x+' -82Z"/>'});return s}
+function ankh(){return '<ellipse cx="0" cy="-48" rx="24" ry="36" stroke-width="6"/><path d="M0 -12 V96 M-48 -6 H48" stroke-width="6"/>'}
+function tetragram(){return C(0,0,92)+C(0,0,86,'thin')+P(ring(3,86,-T/4),'thin')+'<text x="0" y="16" text-anchor="middle" font-size="46" style="font-family:var(--hebrew);fill:var(--gold-soft)">יהוה</text>'}
+function petals(n,r1,r2){let s='';const d=Math.PI/n;for(let k=0;k<n;k++){const a=T*k/n-T/4,pt=(r,t)=>f(r*Math.cos(t))+' '+f(r*Math.sin(t));
+  s+='<path d="M'+pt(r1,a-d)+' Q'+pt(r2*.95,a-d*.55)+' '+pt(r2,a)+' Q'+pt(r2*.95,a+d*.55)+' '+pt(r1,a+d)+'"/>'}return s}
+function sri(){const dn=[[-52,85,100],[-33,64,74],[-19,44,50],[-9,28,30],[-3,14,14]],up=[[46,88,-100],[28,62,-70],[14,40,-42],[6,22,-24]];
+  let s=dn.concat(up).map(t=>P([[-t[1],t[0]],[t[1],t[0]],[0,t[2]]])).join('');
+  s+=C(0,0,100)+petals(8,100,122)+C(0,0,122)+petals(16,122,140)+C(0,0,140)+'<rect x="-152" y="-152" width="304" height="304"/><rect x="-160" y="-160" width="320" height="320" class="thin"/>'+C(0,2,2.5,'dot');
+  return '<g transform="scale(.66)">'+s+'</g>'}
+function solids(){const ph=(1+Math.sqrt(5))/2,sg=[1,-1],cyc=(a,b,c)=>[[a,b,c],[c,a,b],[b,c,a]];
+  const cube=[];sg.forEach(a=>sg.forEach(b=>sg.forEach(c=>cube.push([a,b,c]))));
+  const ico=[],dod=cube.slice();sg.forEach(a=>sg.forEach(b=>{cyc(0,a,b*ph).forEach(v=>ico.push(v));cyc(0,a/ph,b*ph).forEach(v=>dod.push(v))}));
+  const list=[[[1,1,1],[1,-1,-1],[-1,1,-1],[-1,-1,1]],cube,[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]],dod,ico];
+  const pos=[[-70,-52],[0,-52],[70,-52],[-36,48],[36,48]],ca=Math.cos(.45),sa=Math.sin(.45),cb=Math.cos(.62),sb=Math.sin(.62);let s='';
+  list.forEach((V,i)=>{const m=Math.max.apply(null,V.map(v=>Math.hypot(v[0],v[1],v[2]))),D=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
+    const pr=v=>{const x=v[0]*cb+v[2]*sb,z=-v[0]*sb+v[2]*cb;return[pos[i][0]+30*x/m,pos[i][1]+30*(v[1]*ca-z*sa)/m]};
+    let mn=1e9;for(let a=0;a<V.length;a++)for(let b=a+1;b<V.length;b++)mn=Math.min(mn,D(V[a],V[b]));
+    for(let a=0;a<V.length;a++)for(let b=a+1;b<V.length;b++)if(D(V[a],V[b])<mn*1.01)s+=L(pr(V[a]),pr(V[b]))});
+  return s}
+function taiji(){let s='<path class="fillgold" d="M0 -58 A58 58 0 0 1 0 58 A29 29 0 0 1 0 0 A29 29 0 0 0 0 -58Z"/>'+C(0,0,58)+C(0,29,7,'fillbg')+C(0,-29,7,'dot');
+  ['111','011','010','001','000','100','101','110'].forEach((b,k)=>{let g='';for(let i=0;i<3;i++){const y=-(72+i*9);g+=b[i]==='1'?L([-12,y],[12,y]):L([-12,y],[-3,y])+L([3,y],[12,y])}
+    s+='<g transform="rotate('+(45*k)+')" stroke-width="2.4">'+g+'</g>'});return s}
+function dharma(){let s=C(0,0,80)+C(0,0,68)+C(0,0,14)+C(0,0,5,'dot');ring(8,1,-T/4).forEach(p=>{s+=L([p[0]*14,p[1]*14],[p[0]*68,p[1]*68])+C(p[0]*90,p[1]*90,5)});return s}
+function rub(){return P(ring(4,88,T/8))+P(ring(4,88,0))+C(0,0,30)+C(0,0,4,'dot')}
+function celtic(){return '<path d="M0 -96 V96 M-62 -30 H62" stroke-width="9"/>'+C(0,-30,38)+C(0,-30,30,'thin')}
+function triquetra(){const p=ring(3,72,-T/4),d=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]),r=f(d*.6);let s='';
+  for(let i=0;i<3;i++){const a=p[i],b=p[(i+1)%3];s+='<path d="M'+f(a[0])+' '+f(a[1])+' A'+r+' '+r+' 0 0 1 '+f(b[0])+' '+f(b[1])+' A'+r+' '+r+' 0 0 1 '+f(a[0])+' '+f(a[1])+'"/>'}return s+C(0,0,44,'thin')}
+function om(){return C(0,0,92)+C(0,0,86,'thin')+'<text x="0" y="36" text-anchor="middle" font-size="104" style="fill:var(--gold-soft)">ॐ</text>'}
+function golden(){let x=-89,y=-55,w=178,h=110,s='';for(let i=0;i<8;i++){const d=i%4;
+  if(d===0){s+='<rect class="thin" x="'+f(x)+'" y="'+f(y)+'" width="'+f(h)+'" height="'+f(h)+'"/><path d="M'+f(x)+' '+f(y+h)+' A'+f(h)+' '+f(h)+' 0 0 1 '+f(x+h)+' '+f(y)+'"/>';x+=h;w-=h}
+  else if(d===1){s+='<rect class="thin" x="'+f(x)+'" y="'+f(y)+'" width="'+f(w)+'" height="'+f(w)+'"/><path d="M'+f(x)+' '+f(y)+' A'+f(w)+' '+f(w)+' 0 0 1 '+f(x+w)+' '+f(y+w)+'"/>';y+=w;h-=w}
+  else if(d===2){s+='<rect class="thin" x="'+f(x+w-h)+'" y="'+f(y)+'" width="'+f(h)+'" height="'+f(h)+'"/><path d="M'+f(x+w)+' '+f(y)+' A'+f(h)+' '+f(h)+' 0 0 1 '+f(x+w-h)+' '+f(y+h)+'"/>';w-=h}
+  else{s+='<rect class="thin" x="'+f(x)+'" y="'+f(y+h-w)+'" width="'+f(w)+'" height="'+f(w)+'"/><path d="M'+f(x+w)+' '+f(y+h)+' A'+f(w)+' '+f(w)+' 0 0 1 '+f(x)+' '+f(y+h-w)+'"/>';h-=w}}return s}
+
+/* ---------- Muro de luz ---------- */
+const WALL=[
+ ['Judaísmo','<span class="heb" lang="he">שמע ישראל יהוה אלהינו יהוה אחד</span>','Shemá Israel: «Escucha, Israel: el Eterno es nuestro Dios, el Eterno es Uno.» Es el texto de la mezuzá, en el marco de la puerta.'],
+ ['Judaísmo · siglo VII a. C.','<span class="heb" lang="he">יברכך יהוה וישמרך</span>','«Que el Eterno te bendiga y te guarde.» Grabado en los amuletos de plata de Ketef Hinnom, el texto bíblico más antiguo hallado.'],
+ ['Cristianismo celta','<em>Cristo conmigo, Cristo ante mí, Cristo tras de mí.</em>','Coraza de San Patricio, himno de protección irlandés del siglo VIII.'],
+ ['Cristianismo · Medalla de San Benito','<em>Crux sacra sit mihi lux.</em>','«La santa Cruz sea mi luz.» Las iniciales C S S M L van grabadas en la medalla.'],
+ ['Islam','<em>Bismillah ar-Rahman ar-Rahim.</em>','«En el nombre de Dios, el Compasivo, el Misericordioso.» Con esta frase se empieza todo.'],
+ ['Hinduismo · Upanishads','<em>Asato ma sad gamaya, tamaso ma jyotir gamaya.</em>','«De lo irreal llevame a lo real, de la oscuridad a la luz.» Brihadaranyaka Upanishad 1.3.28, hacia el siglo VII a. C.'],
+ ['Budismo','<em>Sabbe satta sukhi hontu. Om mani padme hum.</em>','«Que todos los seres sean felices», y el mantra de la compasión.'],
+ ['Zoroastrismo','<em>Humata, hukhta, hvarshta.</em>','«Buenos pensamientos, buenas palabras, buenas acciones.» El triple lema del Avesta.'],
+ ['Egipto','<em>Anj, udja, seneb.</em>','«Vida, prosperidad, salud.» La bendición que acompañaba el nombre del faraón.'],
+ ['Taoísmo','<em>El Tao que puede nombrarse no es el Tao eterno.</em>','Primera línea del Tao Te Ching: humildad ante lo que no se puede poseer.']
+];
+
+/* ---------- Símbolos ---------- */
+const SYMBOLS=[
+ {n:'Árbol de la Vida',h:'עץ החיים',age:'Cábala · ideas: siglos II–XIII',d:tree,q:'Diez sefirot (emanaciones) unidas por 22 senderos, uno por cada letra hebrea.',o:'Sefer Yetzirá y Bahir; ordenado por Gikatilla, Cordovero y la escuela de Luria en Safed.',p:'Mapa de cómo lo infinito se vuelve mundo, y espejo del carácter: bondad, límite, armonía, constancia.',c:'Estudio diario; una sefirá por semana. En la cuenta del Ómer, una combinación por día.',u:'Elegí una sefirá. Mirala en el dibujo y preguntate dónde te sobra y dónde te falta esa cualidad. A la noche, revisá el día con esa lente.'},
+ {n:'Tetragrámaton',h:'יהוה',age:'Bíblico · más de 2.800 años',d:tetragram,q:'El Nombre de cuatro letras: Yod, He, Vav, He. Viene del verbo ser: fue, es y será.',o:'Torá. Aparece en inscripciones desde el siglo IX a. C.',p:'Centrar la mente en la fuente de todo lo que existe. Eje de casi toda meditación cabalística.',c:'En contemplación silenciosa; al decir el Shemá.',u:'Se mira, no se pronuncia: se dice «Adonai» o «HaShem». Visualizá las cuatro letras en luz blanca, una por respiración.'},
+ {n:'Menorá',h:'מנורה',age:'Éxodo 25 · unos 3.000 años',d:menorah,q:'Candelabro de siete brazos del Tabernáculo y del Templo de Jerusalén.',o:'Torá; en monedas del siglo I a. C. y en el Arco de Tito (81 d. C.). El símbolo judío más antiguo.',p:'Luz, sabiduría y los siete días. En Cábala, las siete sefirot inferiores.',c:'Contemplación matinal.',u:'Recorré los brazos de afuera hacia el centro, una respiración por llama. Los cabalistas leen el Salmo 67 escrito con forma de menorá.'},
+ {n:'Maguén David',h:'מגן דוד',age:'Ornamento antiguo · símbolo judío desde el siglo XIV',d:hexagram,q:'Hexagrama: dos triángulos entrelazados. En la India es el Shatkona; en el islam y la magia medieval, el Sello de Salomón.',o:'Motivo compartido por muchas culturas; los cabalistas medievales lo llamaron «Escudo de David».',p:'Unión de lo que sube y lo que baja: el esfuerzo humano y la bendición que desciende.',c:'Como recordatorio visible: colgante, entrada, cuaderno.',u:'Un círculo, seis marcas con el mismo radio, uní de a una por medio. Contemplá el hexágono central como punto de equilibrio.'},
+ {n:'Tetraktys',h:'',age:'Pitagórico · siglo VI a. C.',d:tetraktys,q:'Diez puntos en triángulo: 1 + 2 + 3 + 4 = 10.',o:'Escuela de Pitágoras, que juraba por ella. Sus razones (2:1, 3:2, 4:3) son la octava, la quinta y la cuarta musicales.',p:'Ver que número, música y cosmos comparten una misma proporción.',c:'Al empezar una sesión de estudio.',u:'Contá de arriba hacia abajo: punto, línea, superficie, volumen. Probá las razones en una cuerda de guitarra.'},
+ {n:'Vesica Piscis',h:'',age:'Euclides, Elementos I.1 · siglo III a. C.',d:vesica,q:'La almendra que forman dos círculos iguales cuando cada uno pasa por el centro del otro.',o:'Primera construcción de los Elementos. Organiza plantas y portales de catedrales góticas.',p:'De ella nacen el triángulo equilátero, el hexágono y la raíz de 3. Imagen del encuentro entre dos.',c:'Primer trazo de toda práctica de geometría sagrada.',u:'Trazá un círculo, apoyá el compás en su borde y trazá otro igual. La línea entre los dos cruces mide √3 veces el radio.'},
+ {n:'Semilla de la Vida',h:'',age:'Patrón antiguo · nombre moderno',d:seed,q:'Siete círculos iguales: uno central y seis alrededor.',o:'Roseta de seis pétalos del arte asirio, romano y medieval. El nombre es del siglo XX.',p:'Orden, simetría y paciencia. Base de la Flor de la Vida.',c:'Dibujo contemplativo.',u:'Desde la vesica, seguí apoyando el compás en cada cruce nuevo hasta cerrar la vuelta. Seis entran exactos alrededor de uno.'},
+ {n:'Flor de la Vida',h:'',age:'Patrón: más de 2.500 años · nombre: década de 1980',d:flower,q:'Diecinueve círculos entrelazados dentro de uno mayor.',o:'Umbrales asirios del siglo VII a. C.; en el Osireion de Abidos es un grafiti tardío. El sentido místico actual es moderno.',p:'Contemplar cómo de una sola regla repetida sale una estructura completa.',c:'Dibujo lento, en silencio, 20 minutos.',u:'Continuá la Semilla una vuelta más y encerrala en un círculo.'},
+ {n:'Cubo de Metatrón',h:'',age:'Geometría clásica · nombre del siglo XX',d:metatron,q:'Trece círculos con todos sus centros unidos por rectas.',o:'El nombre alude al ángel Metatrón de la literatura de Hejalot; la figura con ese nombre es moderna.',p:'En sus líneas se señalan proyecciones del cubo, el tetraedro y el octaedro.',c:'Después de dominar la Flor de la Vida.',u:'Marcá los trece centros y uní cada uno con todos: son 78 rectas. Buscá el hexágono, la estrella y el cubo.'},
+ {n:'Sólidos platónicos',h:'',age:'Platón, Timeo · siglo IV a. C.',d:solids,q:'Los cinco únicos poliedros regulares: tetraedro, cubo, octaedro, dodecaedro e icosaedro.',o:'Platón los unió a fuego, tierra, aire, cosmos y agua; Euclides demostró que no hay más de cinco.',p:'Meditar sobre el límite: solo cinco formas perfectas son posibles en el espacio.',c:'Estudio y construcción manual.',u:'Armalos en cartulina. Contá caras, vértices y aristas: siempre caras + vértices − aristas = 2.'},
+ {n:'Espiral áurea',h:'φ',age:'Euclides, Elementos VI · siglo III a. C.',d:golden,q:'Rectángulo de proporción áurea (1 : 1,618) dividido en cuadrados; los cuartos de círculo forman la espiral.',o:'Euclides la define como «extrema y media razón». Luca Pacioli la llamó «divina proporción» en 1509.',p:'Ver una proporción que se repite a sí misma en cada escala.',c:'Estudio de geometría.',u:'Dibujá un cuadrado, prolongalo con el compás desde el punto medio de un lado, y seguí cortando cuadrados hacia adentro.'},
+ {n:'Sri Yantra',h:'श्री यन्त्र',age:'Tantra hindú · desde el siglo VIII',d:sri,q:'Nueve triángulos entrelazados alrededor de un punto (bindu), con lotos y un recinto cuadrado. Este dibujo es un esquema simplificado.',o:'Tradición Sri Vidya de la India.',p:'Llevar la atención de lo múltiple al punto único.',c:'A la mañana, sentado, con la columna derecha.',u:'A la altura de los ojos y a un brazo de distancia. Mirá el punto central 5 a 10 minutos; después cerrá los ojos y sostené la imagen.'},
+ {n:'Om',h:'ॐ',age:'Upanishads · unos 2.700 años',d:om,q:'La sílaba sagrada: A, U, M y el silencio que sigue.',o:'Mandukya Upanishad, que le dedica el texto entero: vigilia, sueño, sueño profundo y el cuarto estado.',p:'Aquietar la mente y abrir o cerrar toda práctica.',c:'Al empezar y terminar una meditación.',u:'Inhalá hondo y entonalo en una sola exhalación: A en el vientre, U en el pecho, M en la cabeza. Quedate en el silencio después. De tres a veintiuna veces.'},
+ {n:'Taijitu y Bagua',h:'太極',age:'I Ching · trigramas: más de 2.500 años',d:taiji,q:'Yin y yang girando uno en el otro, rodeados por los ocho trigramas en el orden de Fu Xi.',o:'Los trigramas vienen del I Ching; el diagrama del yin-yang se fija en la China de los siglos XI al XIV.',p:'Recordar que todo contiene la semilla de su opuesto. El Bagua se cuelga en las puertas como protección.',c:'Ante una decisión o un conflicto.',u:'Mirá el punto de cada mitad y preguntate qué hay del otro lado en tu situación. Para consultar el I Ching, andá al ritual de las tres monedas.'},
+ {n:'Dharmachakra',h:'धर्मचक्र',age:'Budismo · desde el siglo III a. C.',d:dharma,q:'Rueda de ocho rayos: el Noble Óctuple Sendero.',o:'Aparece en los pilares del emperador Ashoka. Representa la primera enseñanza del Buda en Sarnath.',p:'Repasar los ocho aspectos del camino: visión, intención, palabra, acción, sustento, esfuerzo, atención y concentración.',c:'Revisión semanal.',u:'Un rayo por día. A la noche preguntate cómo estuvo hoy ese aspecto.'},
+ {n:'Rub el Hizb',h:'۞',age:'Islam · caligrafía coránica medieval',d:rub,q:'Estrella de ocho puntas hecha con dos cuadrados superpuestos.',o:'Marca cada cuarto de hizb en el Corán para ordenar la recitación. Base de la geometría islámica.',p:'Ritmo y orden en la lectura; equilibrio entre dos cuadrados iguales.',c:'Estudio y dibujo geométrico.',u:'Un cuadrado dentro de un círculo y otro girado 45 grados. De esta estrella salen los mosaicos de la Alhambra.'},
+ {n:'Cruz celta',h:'',age:'Irlanda y Escocia · desde el siglo VIII',d:celtic,q:'Cruz con un anillo en el cruce.',o:'Altas cruces de piedra de los monasterios irlandeses.',p:'Unión del eje vertical y el horizontal dentro del círculo.',c:'Símbolo personal de protección.',u:'Al trazarla o tocarla, decí la Coraza de San Patricio.'},
+ {n:'Triquetra',h:'',age:'Arte celta y nórdico · desde el siglo VII',d:triquetra,q:'Tres arcos de vesica entrelazados, a veces con un círculo.',o:'Libro de Kells y piedras rúnicas. El cristianismo celta la usó para la Trinidad.',p:'Contemplar el tres en uno: cuerpo, mente y espíritu.',c:'Dibujo contemplativo.',u:'Tres círculos iguales cuyos centros forman un triángulo equilátero. Seguí la línea con el dedo sin levantarlo: no tiene principio ni fin.'},
+ {n:'Anj',h:'☥',age:'Egipto · hacia 3000 a. C.',d:ankh,q:'Cruz con lazo superior; jeroglífico de la palabra «vida».',o:'Egipto dinástico temprano. Los coptos la adoptaron después como cruz.',p:'Recordar la vida como don recibido.',c:'Símbolo personal.',u:'No nos llegó un ritual completo. Usalo como recordatorio de gratitud: al verlo, nombrá una cosa viva por la que agradecés.'}
+];
+
+/* ---------- Rituales ---------- */
+const CATS=[['todo','Todo'],['prot','Protección'],['dia','Cada día'],['est','Rendir y estudiar'],['dif','Momento difícil'],['amor','Amor'],['dorm','Dormir'],['ang','Ángeles'],['guia','Pedir guía']];
+const BAR='Baruj atá Adonai, Elohéinu mélej haolam';
+const RITES=[
+ {c:'prot',t:'Judaísmo',n:'Salmo 91 entero',w:'Antes de dormir o de salir · 4 min',para:'El salmo de protección por excelencia. Ya se usaba así en Qumrán hace más de dos mil años.',
+  steps:['Lavate las manos y sentate.','Leelo entero en voz alta, despacio.','Detenete en el versículo que más te toque y repetilo tres veces.','Cerrá con un pedido propio, por vos y por alguien más.'],
+  full:['Salmo 91',['El que habita al abrigo del Altísimo morará bajo la sombra del Omnipotente.','Diré yo al Eterno: esperanza mía y castillo mío; mi Dios, en quien confiaré.','Él te librará del lazo del cazador, de la peste destructora.','Con sus plumas te cubrirá, y debajo de sus alas estarás seguro; escudo y adarga es su verdad.','No temerás el terror nocturno, ni saeta que vuele de día,','ni pestilencia que ande en oscuridad, ni mortandad que en medio del día destruya.','Caerán a tu lado mil, y diez mil a tu diestra; mas a ti no llegará.','Ciertamente con tus ojos mirarás y verás la recompensa de los impíos.','Porque has puesto al Eterno, que es mi esperanza, al Altísimo por tu habitación,','no te sobrevendrá mal, ni plaga tocará tu morada.','Pues a sus ángeles mandará acerca de ti, que te guarden en todos tus caminos.','En las manos te llevarán, para que tu pie no tropiece en piedra.','Sobre el león y el áspid pisarás; hollarás al cachorro del león y al dragón.','Por cuanto en mí ha puesto su amor, yo también lo libraré; lo pondré en alto, por cuanto ha conocido mi nombre.','Me invocará, y yo le responderé; con él estaré yo en la angustia; lo libraré y lo glorificaré.','Lo saciaré de larga vida, y le mostraré mi salvación.']]},
+ {c:'prot',t:'Judaísmo',n:'Bendición sacerdotal',w:'Viernes a la noche o al despedir a alguien · 1 min',para:'Bendecir y guardar a otro. Números 6:24-26.',
+  steps:['Apoyá las manos sobre la cabeza de quien bendecís, o extendelas hacia tu casa.','Decí las tres líneas con una pausa entre cada una.','Agregá una bendición propia y concreta.'],
+  say:[['Yevarejejá Adonai veyishmeréja.','Que el Eterno te bendiga y te guarde.'],['Yaer Adonai panav eléja vijunéka.','Que haga brillar su rostro sobre vos y te dé gracia.'],['Yisá Adonai panav eléja veyasem lejá shalom.','Que vuelva su rostro hacia vos y te dé paz.']]},
+ {c:'prot',t:'Cristianismo celta',n:'Coraza de San Patricio',w:'A la mañana, antes de salir · 3 min',para:'Vestirse de protección por los cuatro lados. Himno irlandés del siglo VIII atribuido a San Patricio. Van la invocación de la creación y la estrofa central; el himno completo tiene nueve estrofas.',
+  steps:['De pie, mirando al este.','Decí la primera estrofa sintiendo cada elemento.','En la segunda, señalá con la mano cada dirección que nombrás.'],
+  say:[['Me levanto hoy por la fuerza del cielo: luz del sol, resplandor de la luna, esplendor del fuego, rapidez del rayo, ligereza del viento, profundidad del mar, firmeza de la tierra, solidez de la roca.',''],['Cristo conmigo, Cristo ante mí, Cristo tras de mí, Cristo en mí, Cristo debajo de mí, Cristo sobre mí, Cristo a mi derecha, Cristo a mi izquierda, Cristo cuando me acuesto, Cristo cuando me siento, Cristo cuando me levanto, Cristo en el corazón de todo el que piense en mí, Cristo en la boca de todo el que hable de mí, Cristo en todo ojo que me ve, Cristo en todo oído que me escucha.','']]},
+ {c:'prot',t:'Islam',n:'Ayat al-Kursi y las dos suras del refugio',w:'Después de cada oración y antes de dormir · 3 min',para:'El Verso del Trono (Corán 2:255) es la aleya de protección más recitada del islam. Las suras 113 y 114 se llaman «las dos protectoras».',
+  steps:['Empezá con «Bismillah ar-Rahman ar-Rahim».','Recitá el Verso del Trono una vez.','Recitá las suras 113 y 114, tres veces cada una.','La costumbre es soplar suave en las palmas y pasarlas por el rostro y el cuerpo.'],
+  say:[['Allahu la ilaha illa Huwa, al-Hayyul-Qayyum. La tajudhuhu sinatun wa la nawm. Lahu ma fis-samawati wa ma fil-ard. Man dhal-ladhi yashfau indahu illa bi-idhnih. Yalamu ma bayna aydihim wa ma jalfahum, wa la yuhituna bi shayin min ilmihi illa bima sha. Wasia kursiyyuhus-samawati wal-ard, wa la yauduhu hifdhuhuma, wa Huwal-Aliyyul-Adhim.','Dios: no hay dios sino Él, el Viviente, el Subsistente. No le alcanzan somnolencia ni sueño. Suyo es lo que hay en los cielos y en la tierra. ¿Quién puede interceder ante Él si no es con su permiso? Conoce lo que hay ante ellos y lo que hay tras ellos, y no abarcan nada de su conocimiento salvo lo que Él quiere. Su trono se extiende sobre los cielos y la tierra, y no le fatiga custodiarlos. Él es el Altísimo, el Inmenso.'],
+   ['Qul audhu bi rabbil-falaq, min sharri ma jalaq, wa min sharri ghasiqin idha waqab, wa min sharrin-naffathati fil-uqad, wa min sharri hasidin idha hasad.','Sura 113, El Alba. Di: me refugio en el Señor del alba, del mal de lo que ha creado, del mal de la oscuridad cuando se extiende, del mal de las que soplan en los nudos, y del mal del envidioso cuando envidia.'],
+   ['Qul audhu bi rabbin-nas, malikin-nas, ilahin-nas, min sharril-waswasil-jannas, alladhi yuwaswisu fi sudurin-nas, minal-jinnati wan-nas.','Sura 114, Los Hombres. Di: me refugio en el Señor de los hombres, Rey de los hombres, Dios de los hombres, del mal del susurrador que se esconde, que susurra en los pechos de los hombres, sea genio u hombre.']]},
+ {c:'prot',t:'Hinduismo',n:'Mahamrityunjaya, el gran mantra que vence a la muerte',w:'Al amanecer o ante un peligro o enfermedad · 108 repeticiones',para:'Protección, salud y serenidad ante el miedo. Rig Veda 7.59.12, más de 3.000 años.',
+  steps:['Sentate derecho. Si tenés un mala (rosario de 108 cuentas), usalo.','Tres Om para empezar.','Repetí el mantra 108 veces, o 27 o 9 si recién empezás, a media voz.','Quedate dos minutos en silencio.'],
+  say:[['Om tryambakam yajamahe, sugandhim pushti-vardhanam; urvarukam iva bandhanan, mrityor mukshiya mamritat.','Adoramos al de los tres ojos, fragante, que nutre a todos los seres. Que nos libere de la muerte como el fruto maduro se suelta de su tallo, y nos lleve a la inmortalidad.']]},
+ {c:'prot',t:'Budismo tibetano',n:'Mantras de la compasión y de Tara Verde',w:'En cualquier momento · 108 repeticiones',para:'Om mani padme hum invoca la compasión de Avalokiteshvara. Tara Verde es la protectora que acude rápido ante el miedo.',
+  steps:['Sentate y generá la intención: «que esto sirva a todos los seres».','Recitá uno de los dos mantras 108 veces con el mala.','Dedicá el mérito: «que todo ser quede libre de miedo».'],
+  say:[['Om mani padme hum.','Las seis sílabas; literalmente «la joya en el loto».'],['Om tare tuttare ture soha.','Mantra de Tara Verde: la que libera, la que quita los miedos, la que concede.']]},
+ {c:'prot',t:'Varias tradiciones',n:'Limpiar y consagrar un espacio',w:'Al mudarte, después de una pelea o una vez por semana · 15 min',para:'Dejar la casa o el cuarto ordenado, limpio y dedicado. El incienso se quemaba en el Templo de Jerusalén (ketoret) y sigue en iglesias y templos de Asia; el agua con sal es el agua bendita cristiana.',need:'Incienso natural (olíbano, sándalo), un cuenco con agua y una pizca de sal, una vela.',
+  steps:['Ordená y limpiá primero. Abrí las ventanas.','Encendé la vela en el centro y decí tu intención: «que en esta casa haya paz, verdad y bondad».','Recorré cada ambiente con el incienso, empezando por la puerta y girando hacia la derecha.','Con los dedos, salpicá unas gotas de agua con sal en los umbrales.','Volvé al centro y decí el Salmo 91, la Coraza, el Verso del Trono o el mantra de tu tradición.','Dejá que la vela se consuma en un lugar seguro, sin perderla de vista.']},
+
+ {c:'dia',t:'Judaísmo',n:'Despertar: Modé Aní y lavado de manos',w:'Cada mañana · 3 min',para:'Empezar el día agradeciendo y limpio.',need:'Una jarra con agua y un recipiente.',
+  steps:['Al abrir los ojos, antes de levantarte, decí el Modé Aní.','Tomá la jarra con la derecha y pasala a la izquierda.','Volcá agua sobre la mano derecha, después sobre la izquierda. Tres veces cada una, alternando.','Decí la bendición y secate.'],
+  say:[['Modé aní lefanéja, mélej jai vekayam, shehejezarta bi nishmatí bejemlá, rabá emunatéja.','Te agradezco, Rey vivo y eterno, que me devolviste el alma con compasión; grande es tu fidelidad. (Mujer: «Modá aní».)'],[BAR+', asher kideshanu bemitzvotav vetzivanu al netilat yadáim.','Bendito sos, Eterno, Dios nuestro, Rey del universo, que nos santificaste con tus mandamientos y nos ordenaste el lavado de manos.']]},
+ {c:'dia',t:'Judaísmo',n:'Shemá Israel',w:'Mañana y noche · 2 min',para:'Afirmar la unidad de todo. La práctica central y más antigua.',
+  steps:['Tres respiraciones lentas.','Cubrite los ojos con la mano derecha.','Decí la primera línea en voz alta, una palabra por respiración. En «Ejad», sostené la idea de que nada está separado.','Decí la segunda línea en un susurro y quedate en silencio.'],
+  say:[['Shemá Israel, Adonai Elohéinu, Adonai Ejad.','Escucha, Israel: el Eterno es nuestro Dios, el Eterno es Uno.'],['Baruj shem kevod maljutó leolam vaed.','Bendito sea el nombre de su reino glorioso por siempre.']]},
+ {c:'dia',t:'Hinduismo',n:'Gayatri al amanecer',w:'Al salir el sol · 5 min',para:'Pedir luz para el entendimiento. Rig Veda 3.62.10; es el mantra más venerado de la India.',
+  steps:['Mirando al este, sentado o de pie.','Tres Om.','Recitá la Gayatri 3, 9 o 108 veces.','Cerrá con «Om shanti, shanti, shanti».'],
+  say:[['Om bhur bhuvah svah, tat savitur varenyam, bhargo devasya dhimahi, dhiyo yo nah prachodayat.','Tierra, aire y cielo. Meditamos en el esplendor adorable del divino Sol; que él ilumine nuestro entendimiento.']]},
+ {c:'dia',t:'Judaísmo',n:'Aná BeKóaj',w:'A la mañana o el viernes antes de Shabat · 3 min',para:'Siete líneas ligadas al Nombre de 42 letras; una por día de la semana y por sefirá. Atribuida a Rabí Nejuniá ben Hakaná (siglo I); el texto es medieval.',
+  steps:['Decí las siete líneas despacio, una respiración entre cada una. La primera es la del domingo.','Cerrá en un susurro con «Baruj shem kevod maljutó leolam vaed».'],
+  say:[['1 · Aná bejóaj, guedulat yeminjá, tatir tzerurá.','Jésed. Por favor, con la fuerza de tu diestra, desatá lo que está atado.'],['2 · Kabel rinat amjá, sagvenu, taharenu, norá.','Guevurá. Recibí el canto de tu pueblo; elevanos, purificanos.'],['3 · Na guibor, dorshei yijudjá, kebavat shomrem.','Tiféret. A quienes buscan tu unidad, cuidalos como a la niña del ojo.'],['4 · Barjem, taharem, rajamei tzidkatjá tamid gomlem.','Nétzaj. Bendecilos, purificalos, dales siempre tu compasión.'],['5 · Jasín kadosh, berov tuvjá nahel adatéja.','Hod. Fuerte y santo, con tu gran bondad guiá a tu comunidad.'],['6 · Yajid gueé, leamjá pné, zojrei kedushatéja.','Yesod. Único y excelso, volvete hacia los que recuerdan tu santidad.'],['7 · Shavatenu kabel, ushmá tzaakatenu, yodea taalumot.','Maljut. Recibí nuestro ruego y escuchá nuestro clamor, vos que conocés lo oculto.']]},
+ {c:'dia',t:'Cristianismo oriental · Sufismo',n:'Oración del corazón y dhikr',w:'Diez minutos, y después durante el día',para:'Repetir un nombre o una frase al ritmo de la respiración hasta que baje de la cabeza al corazón. Es el hesicasmo de los monjes del desierto (siglo IV, recogido en la Filocalia) y el dhikr de los sufíes.',
+  steps:['Sentate con la cabeza apenas inclinada hacia el pecho.','Elegí una sola fórmula y no la cambies.','Inhalando decí la primera mitad, exhalando la segunda. En silencio.','Cuando la mente se vaya, volvé sin retarte.','Durante el día, retomala caminando o esperando.'],
+  say:[['Señor Jesucristo, Hijo de Dios, ten piedad de mí.','Oración de Jesús. Inhalando: «Señor Jesucristo, Hijo de Dios». Exhalando: «ten piedad de mí».'],['La ilaha illa Allah.','Dhikr: «No hay más dios que Dios». Exhalando «La ilaha», inhalando «illa Allah».']]},
+ {c:'dia',t:'Judaísmo jasídico',n:'Hitbodedut, hablar a solas',w:'Cada día · 10 a 20 min',para:'Vaciar el corazón y ordenar la mente. La práctica que Rabí Najman de Breslov (1772–1810) pedía por encima de todas.',need:'Un lugar donde nadie te escuche.',
+  steps:['Poné un tiempo fijo y respetalo.','Hablá en voz alta, en tu idioma, como a un amigo: lo que agradecés, lo que te pesa, lo que querés cambiar.','Si no sale nada, decí «no sé qué decir» y repetilo.','Terminá con un solo pedido concreto para hoy.']},
+ {c:'dia',t:'Tantra hindú',n:'Contemplación del Sri Yantra',w:'A la mañana · 10 min',para:'Entrenar la atención sostenida en un punto (trataka).',need:'El yantra a la altura de los ojos, a un brazo de distancia. Luz suave.',
+  steps:['Un minuto de respiración lenta.','Apoyá la mirada en el punto central sin forzar.','Cuando la mente se vaya, volvé al punto.','A los cinco minutos cerrá los ojos y sostené la imagen que queda.','Si arden los ojos o duele la cabeza, cortá. No pases de diez minutos.']},
+ {c:'dia',t:'Geometría clásica',n:'Trazado contemplativo',w:'Una o dos veces por semana · 20 min',para:'Unir mano, ojo y mente. La forma original de practicar geometría sagrada.',need:'Compás, regla sin marcas, lápiz, papel grueso.',
+  steps:['Silencio, sin teléfono.','Un círculo. Sin cambiar la abertura, apoyá en el borde y trazá el segundo: vesica piscis.','Seguí en cada cruce hasta cerrar la Semilla de la Vida.','Una vuelta más y el círculo exterior: Flor de la Vida.','Con la regla, uní centros: hexágono, estrella, Cubo de Metatrón.','Fechá el dibujo y guardalo.']},
+ {c:'dia',t:'Cristianismo · San Ignacio',n:'Examen de la noche',w:'Antes de dormir · 10 min',para:'Mirar el día con verdad y gratitud. Ejercicios Espirituales de Ignacio de Loyola, 1548.',
+  steps:['Agradecé tres cosas concretas de hoy.','Pedí luz para ver el día como fue.','Repasalo hora por hora: dónde hubo paz y amor, dónde te cerraste.','Pedí perdón por lo que estuvo mal y perdoná a quien te hirió.','Elegí una sola cosa para hacer mejor mañana.']},
+ {c:'dia',t:'Judaísmo',n:'Velas de Shabat y Havdalá',w:'Viernes al atardecer y sábado a la noche',para:'Un día entero fuera del ruido: sin pantallas, sin producir, con los tuyos.',need:'Dos velas; para el cierre, vino o jugo de uva, especias (clavo, canela) y una vela trenzada.',
+  steps:['Viernes: separá una moneda para tzedaká.','Dieciocho minutos antes de la puesta del sol, encendé las dos velas.','Tres círculos con las manos trayendo la luz hacia vos; cubrite los ojos.','Decí la bendición. Con los ojos cubiertos, pedí en silencio por los tuyos.','Hasta la salida de las estrellas del sábado: descanso, comida compartida, estudio, caminata.','Havdalá: bendición del vino; oled las especias con su bendición; acercá las manos a la llama con su bendición; decí la última, bebé y apagá la vela en unas gotas de vino.'],
+  say:[[BAR+', asher kideshanu bemitzvotav vetzivanu lehadlik ner shel Shabat.','…que nos ordenaste encender la vela de Shabat.'],[BAR+', boré prí hagafen.','Vino: creador del fruto de la vid.'],[BAR+', boré miné besamim.','Especias: creador de las especias aromáticas.'],[BAR+', boré meoré haesh.','Fuego: creador de las luces del fuego.'],['Baruj atá Adonai, hamavdil bein kódesh lejol.','Bendito sos, Eterno, que separás lo sagrado de lo cotidiano.']]},
+
+ {c:'est',t:'Varias tradiciones',n:'Rito completo para el día del examen',w:'Desde la noche anterior hasta salir del aula',para:'Llegar descansado, con la mente clara y sin miedo. Combina lo espiritual con lo que de verdad cambia el rendimiento.',
+  steps:['Noche anterior: cerrá los apuntes dos horas antes de dormir. Hacé el Shemá al acostarse o el Examen de la noche. Dormir bien fija la memoria más que una hora extra de repaso.','A la mañana: lavado de manos, y la oración del estudiante de tu tradición (están abajo).','Dá tzedaká o hacé un gesto concreto por alguien antes de salir.','En la puerta del aula: tres respiraciones con la exhalación el doble de larga que la inhalación (4 tiempos adentro, 8 afuera). Decí la súplica de Moisés.','Si te bloqueás: soltá la lapicera, repetí las tres respiraciones, y volvé por la pregunta más fácil.','Al terminar, agradecé antes de saber la nota. El resultado ya no es tuyo; el esfuerzo sí.']},
+ {c:'est',t:'Cristianismo',n:'Oración de Santo Tomás de Aquino antes de estudiar',w:'Al abrir los libros · 2 min',para:'Pedir entendimiento, memoria y claridad para exponer. Siglo XIII.',
+  steps:['Ordená la mesa y sentate derecho.','Leé la oración despacio.','Estudiá en bloques de 25 a 50 minutos sin teléfono.'],
+  say:[['Creador inefable, verdadera fuente de luz y de sabiduría: dígnate infundir sobre las tinieblas de mi entendimiento el rayo de tu claridad, y apartá de mí la doble oscuridad en que nací, la del pecado y la de la ignorancia. Vos que hacés elocuentes las lenguas de los niños, instruí mi lengua y derramá en mis labios la gracia de tu bendición. Dame agudeza para entender, capacidad para retener, método y facilidad para aprender, sutileza para interpretar y gracia abundante para hablar. Dame acierto al empezar, dirección al progresar y perfección al acabar. Amén.','']]},
+ {c:'est',t:'Islam',n:'Súplica de Moisés y pedido de conocimiento',w:'Antes de un examen oral o de hablar en público · 1 min',para:'Es lo que pidió Moisés antes de presentarse ante el Faraón (Corán 20:25-28). La segunda es Corán 20:114.',
+  steps:['Decila tres veces, con la mano en el pecho.','Entrá sin apuro.'],
+  say:[['Rabbi ishrah li sadri, wa yassir li amri, wahlul uqdatan min lisani, yafqahu qawli.','Señor, ensanchá mi pecho, facilitame mi tarea, y desatá el nudo de mi lengua para que entiendan lo que digo.'],['Rabbi zidni ilma.','Señor, aumentame en conocimiento.']]},
+ {c:'est',t:'Hinduismo',n:'Mantra de Saraswati',w:'Antes de estudiar · 108 repeticiones',para:'Saraswati es la diosa del conocimiento, la palabra y las artes. Los estudiantes de la India la invocan antes de cada examen.',
+  steps:['Poné tus libros delante, con respeto.','Repetí el mantra 108 veces, o 21 si hay poco tiempo.','Empezá a estudiar enseguida.'],
+  say:[['Om aim Sarasvatyai namah.','Om, me inclino ante Saraswati. «Aim» es su sílaba semilla.']]},
+
+ {c:'dif',t:'Judaísmo · Cristianismo',n:'Salmos 23 y 121 enteros',w:'Cuando falta el piso · 5 min',para:'Los dos salmos de confianza más leídos en duelos, enfermedades y viajes.',
+  steps:['Leé los dos en voz alta.','Elegí un versículo y llevalo con vos todo el día.'],
+  full:['Salmo 23',['El Eterno es mi pastor; nada me faltará.','En lugares de delicados pastos me hará descansar; junto a aguas de reposo me pastoreará.','Confortará mi alma; me guiará por sendas de justicia por amor de su nombre.','Aunque ande en valle de sombra de muerte, no temeré mal alguno, porque tú estarás conmigo; tu vara y tu cayado me infundirán aliento.','Aderezas mesa delante de mí en presencia de mis angustiadores; unges mi cabeza con aceite; mi copa está rebosando.','Ciertamente el bien y la misericordia me seguirán todos los días de mi vida, y en la casa del Eterno moraré por largos días.']],
+  full2:['Salmo 121',['Alzaré mis ojos a los montes; ¿de dónde vendrá mi socorro?','Mi socorro viene del Eterno, que hizo los cielos y la tierra.','No dará tu pie al resbaladero, ni se dormirá el que te guarda.','He aquí, no se adormecerá ni dormirá el que guarda a Israel.','El Eterno es tu guardador; el Eterno es tu sombra a tu mano derecha.','El sol no te fatigará de día, ni la luna de noche.','El Eterno te guardará de todo mal; él guardará tu alma.','El Eterno guardará tu salida y tu entrada, desde ahora y para siempre.']]},
+ {c:'dif',t:'Cristianismo · Santa Teresa',n:'Nada te turbe',w:'En la angustia · 1 min',para:'Poema que Teresa de Ávila llevaba en su breviario. Siglo XVI.',
+  steps:['Leelo tres veces, cada vez más lento.','Quedate en «todo se pasa».'],
+  say:[['Nada te turbe, nada te espante; todo se pasa, Dios no se muda. La paciencia todo lo alcanza. Quien a Dios tiene, nada le falta: solo Dios basta.','']]},
+ {c:'dif',t:'Budismo tibetano',n:'Tonglen, tomar y dar',w:'Ante un dolor propio o ajeno · 10 min',para:'Transformar el dolor en compasión en vez de huirle. Enseñanza de Atisha (siglo XI).',
+  steps:['Sentate y sentí el dolor tal como está, en el cuerpo.','Al inhalar, imaginá que tomás ese dolor como humo oscuro y denso, que se disuelve en el corazón.','Al exhalar, enviá alivio como luz clara y fresca.','Ampliá: inhalá el dolor de todos los que sienten lo mismo ahora; exhalá alivio para todos.','Terminá descansando en la respiración natural.']},
+ {c:'dif',t:'Judaísmo · Islam · Sufismo',n:'Tres frases para sostenerse',w:'Todo el día',para:'Frases cortas para repetir cuando algo sale mal.',
+  steps:['Elegí una y repetila cada vez que vuelva el pensamiento.'],
+  say:[['Gam zu letová.','«También esto es para bien.» Najum de Gamzu, Talmud, Taanit 21a.'],['Hasbunallahu wa nimal-wakil.','«Dios nos basta, y qué buen protector es.» Corán 3:173.'],['Esto también pasará.','Leyenda sufí persa del anillo del rey.']]},
+ {c:'dif',t:'Budismo',n:'Metta, amor bondadoso',w:'Cualquier momento · 10 min',para:'Cultivar benevolencia, incluso hacia quien te hirió. Karaniya Metta Sutta, unos 2.500 años.',
+  steps:['Llevá la atención al pecho.','Repetí las frases para vos durante dos minutos.','Después para alguien que querés; para alguien neutral; para alguien difícil; y para todos los seres.','Si con la persona difícil aparece rechazo, volvé un paso atrás.'],
+  say:[['Que esté bien. Que esté en paz. Que esté libre de sufrimiento.','Se cambia el sujeto en cada etapa.']]},
+
+ {c:'amor',t:'Cristianismo · Judaísmo',n:'El himno del amor y el sello del Cantar',w:'Una vez por semana, solo o en pareja',para:'Medir tu forma de amar contra la vara más alta que se escribió. 1 Corintios 13:4-8 y Cantar de los Cantares 8:6-7.',
+  steps:['Leé el himno en voz alta.','Volvé a leerlo poniendo tu nombre donde dice «el amor». Anotá dónde suena falso.','Elegí una sola línea para practicar esta semana.','Cerrá con el Cantar.'],
+  say:[['El amor es paciente, es bondadoso. El amor no tiene envidia, no presume ni se engríe; no es indecoroso ni busca su interés; no se irrita, no lleva cuentas del mal; no se alegra de la injusticia, sino que goza con la verdad. Todo lo excusa, todo lo cree, todo lo espera, todo lo soporta. El amor no pasa nunca.',''],['Ponme como un sello sobre tu corazón, como un sello sobre tu brazo; porque fuerte como la muerte es el amor. Las muchas aguas no podrán apagar el amor, ni lo ahogarán los ríos.','']]},
+ {c:'amor',t:'Judaísmo',n:'Pedir primero por otro',w:'Cuando buscás pareja o querés sanar un vínculo',para:'El Talmud (Bava Kama 92a) enseña que quien pide por otro que necesita lo mismo es respondido primero.',
+  steps:['Pensá en alguien que esté buscando lo mismo que vos.','Durante cuarenta días, pedí por esa persona por su nombre antes de pedir por vos.','Hacé una cosa concreta por ella: presentarle a alguien, acompañarla, escucharla.','Después pedí lo tuyo con palabras simples: una persona con quien crecer en verdad y bondad.']},
+ {c:'amor',t:'Budismo',n:'Metta por la persona amada',w:'Cada noche · 5 min',para:'Desear el bien del otro sin condiciones. Funciona igual para una pareja, un amor perdido o alguien que todavía no llegó.',
+  steps:['Traé su rostro a la mente.','Repetí: «Que estés bien. Que estés en paz. Que seas libre.»','Si hay enojo o apego, respiralo sin pelear.','Terminá con las mismas frases para vos.']},
+
+ {c:'dorm',t:'Judaísmo',n:'Shemá al acostarse, con los cuatro arcángeles',w:'Ya en la cama · 5 min',para:'Soltar el día, perdonar y dormir custodiado. Talmud, Berajot 4b y 60b.',
+  steps:['Perdoná en voz baja a todos.','Cubrite los ojos y decí el Shemá.','Invocá a los cuatro arcángeles, sintiendo cada dirección.','Encomendá tu espíritu y no hables más hasta dormirte.'],
+  say:[['Señor del universo: perdono a todo el que me haya enojado o herido, o haya obrado contra mí, en mi cuerpo, mis bienes, mi honor o en cualquier cosa mía, queriendo o sin querer, de palabra o de obra. Que nadie sea castigado por mi causa.','Ribonó shel olam, hareini mojel.'],['Shemá Israel, Adonai Elohéinu, Adonai Ejad.',''],['Beshem Adonai Elohei Israel: miminí Mijael, umismolí Gavriel, umilfanai Uriel, umeajorai Refael, veal roshí Shejinat El.','En el nombre del Eterno, Dios de Israel: a mi derecha Mijael, a mi izquierda Gabriel, delante de mí Uriel, detrás de mí Rafael, y sobre mi cabeza la Presencia de Dios. Se dice tres veces.'],['Beyadjá afkid rují; padita otí, Adonai, El emet.','En tu mano encomiendo mi espíritu; me redimiste, Eterno, Dios de verdad. Salmo 31:6.']]},
+ {c:'dorm',t:'Yoga',n:'Relajación profunda (yoga nidra)',w:'Acostado boca arriba · 15 min',para:'Bajar el cuerpo al umbral del sueño con la mente despierta. Viene del pratyahara de los Yoga Sutras.',
+  steps:['Boca arriba, brazos apenas separados, palmas hacia arriba.','Formulá una intención corta en presente («estoy en paz») y decila tres veces por dentro.','Recorré el cuerpo nombrando cada parte: pulgar derecho, índice, medio… mano, brazo, hombro, costado, pierna, pie. Después el lado izquierdo, la espalda, el rostro.','Sentí el cuerpo entero pesado; después entero liviano.','Contá las respiraciones hacia atrás desde 27. Si te perdés, empezá de nuevo.','Repetí la intención y dejate dormir.']},
+ {c:'dorm',t:'Islam',n:'Antes de dormir, según la costumbre del Profeta',w:'Ya en la cama · 3 min',para:'Dormir bajo protección.',
+  steps:['Acostate sobre el lado derecho.','Recitá el Verso del Trono (está en Protección).','Recitá las suras 113 y 114, soplá en las palmas y pasalas por el cuerpo.','Decí la frase final.'],
+  say:[['Bismika Allahumma amutu wa ahya.','En tu nombre, Dios mío, muero y vivo.']]},
+
+ {c:'ang',t:'Judaísmo',n:'Shalom Aleijem, recibir a los ángeles',w:'Viernes a la noche, al sentarse a la mesa',para:'Canto cabalístico de Safed (siglo XVII) que saluda a los ángeles que acompañan a cada persona al entrar el Shabat.',
+  steps:['De pie alrededor de la mesa.','Cantá o decí cada estrofa tres veces.'],
+  say:[['Shalom aleijem, malajei hasharet, malajei Elyón, mimélej maljei hamelajim, Hakadosh Baruj Hu.','La paz sea con ustedes, ángeles servidores, ángeles del Altísimo, del Rey de reyes, el Santo, bendito sea.'],['Boajem leshalom, malajei hashalom, malajei Elyón…','Vengan en paz, ángeles de la paz…'],['Barjuni leshalom, malajei hashalom, malajei Elyón…','Bendíganme con paz…'],['Tzetjem leshalom, malajei hashalom, malajei Elyón…','Vayan en paz…']]},
+ {c:'ang',t:'Cristianismo',n:'Ángel de la Guarda y San Miguel',w:'Al despertar y antes de un viaje o una prueba',para:'Las dos oraciones angélicas más rezadas. La de San Miguel es de León XIII, 1886.',
+  steps:['Hacé silencio un momento y reconocé la compañía.','Decí la del ángel custodio.','Si necesitás fuerza y defensa, sumá la de San Miguel.'],
+  say:[['Ángel de Dios, que eres mi custodio, pues la bondad divina me ha encomendado a ti: ilumíname, guárdame, rígeme y gobiérname. Amén.',''],['San Miguel Arcángel, defiéndenos en la batalla; sé nuestro amparo contra la perversidad y las asechanzas del mal. Reprímalo Dios, pedimos suplicantes; y tú, príncipe de la milicia celestial, arroja lejos con el divino poder a todo espíritu maligno que anda por el mundo para la perdición de las almas. Amén.','']]},
+ {c:'ang',t:'Judaísmo · Enoc',n:'Meditación de los cuatro arcángeles',w:'Cuando te sentís expuesto o solo · 7 min',para:'Sentirte rodeado. Los cuatro nombres aparecen juntos en el Libro de Enoc (siglos III–I a. C.).',
+  steps:['De pie o sentado, ojos cerrados.','A tu derecha, Mijael («¿quién como Dios?»): bondad y defensa. Sentí calor de ese lado.','A tu izquierda, Gabriel («fuerza de Dios»): firmeza y límite.','Delante, Uriel («luz de Dios»): claridad para ver el camino.','Detrás, Rafael («Dios sana»): salud y respaldo.','Sobre tu cabeza, la Shejiná, la Presencia. Quedate ahí tres minutos.','Agradecé y abrí los ojos despacio.']},
+
+ {c:'guia',t:'Judaísmo',n:'Sheelat Jalom, la pregunta al sueño',w:'De noche, ante una decisión real',para:'Pedir una respuesta en sueños. Práctica de los gueonim y de los cabalistas medievales.',need:'Papel y lápiz al lado de la cama.',
+  steps:['Ese día comé liviano, no tomes alcohol y dá tzedaká.','Antes de acostarte, lavate y escribí la pregunta en una sola frase clara.','Decí el Shemá al acostarse.','Pedí con tus palabras: «Mostrame en un sueño claro lo que necesito entender sobre esto».','Dormite repitiendo la pregunta.','Al despertar, antes de moverte, anotá todo lo que recuerdes, aunque parezca suelto.','Repetí hasta tres noches. Contrastá lo recibido con alguien sabio antes de actuar.']},
+ {c:'guia',t:'Islam',n:'Salat al-Istijara, la oración de consulta',w:'Antes de una decisión importante',para:'Enseñada por el Profeta para toda elección: trabajo, viaje, matrimonio. La respuesta se lee en cómo se abren o se cierran los caminos y en la paz interior, más que en señales espectaculares.',
+  steps:['Hacé la ablución.','Dos ciclos de oración voluntaria, o si no sos musulmán, unos minutos de recogimiento.','Decí la súplica nombrando tu asunto.','Seguí adelante con lo que parezca mejor y observá qué se facilita.'],
+  say:[['Dios mío, te pido que me guíes con tu conocimiento, te pido fuerza por tu poder y te pido de tu inmenso favor. Porque vos podés y yo no puedo, vos sabés y yo no sé, y vos conocés lo oculto. Dios mío, si sabés que este asunto (se lo nombra) es bueno para mí en mi fe, en mi vida y en mi final, decretalo para mí, facilitámelo y bendecímelo. Y si sabés que es malo para mí en mi fe, en mi vida y en mi final, apartalo de mí y apartame de él; decretá para mí el bien donde esté, y hacé que quede satisfecho con él.','']]},
+ {c:'guia',t:'Cristianismo monástico',n:'Lectio Divina',w:'A la mañana · 20 min',para:'Dejar que un texto sagrado te hable a vos, hoy. Los cuatro pasos son de Guigo el Cartujo, siglo XII.',
+  steps:['Lectio: leé un pasaje corto, despacio, dos veces. ¿Qué dice?','Meditatio: quedate con la palabra o frase que resalta. ¿Qué me dice a mí?','Oratio: respondé con tus palabras. ¿Qué le digo yo?','Contemplatio: silencio. No hagas nada.','Anotá la frase y llevala con vos.']},
+ {c:'guia',t:'Taoísmo · Confucianismo',n:'I Ching con tres monedas',w:'Ante una encrucijada',para:'El Libro de los Cambios tiene unos 3.000 años. Responde con una imagen de la situación y de hacia dónde se mueve.',need:'Tres monedas iguales, papel y un I Ching (la traducción de Richard Wilhelm es la clásica).',
+  steps:['Escribí la pregunta abierta: «¿Qué necesito ver sobre…?»','Tirá las tres monedas. Cara vale 3, cruz vale 2. Sumá.','6: línea partida que cambia. 7: línea entera. 8: línea partida. 9: línea entera que cambia.','Dibujá la línea. Repetí seis veces, de abajo hacia arriba.','Buscá el hexagrama y leé el dictamen y las líneas que cambian.','Cambiá esas líneas por su opuesto: el segundo hexagrama muestra hacia dónde va la situación.']},
+ {c:'guia',t:'Cristianismo · Judaísmo',n:'Discernir un mensaje',w:'Cada vez que creas haber recibido algo',para:'Todas las tradiciones piden examinar lo que llega. «Prueben los espíritus» (1 Juan 4:1). Ignacio de Loyola dio las reglas más precisas.',
+  steps:['¿Te deja paz honda y duradera, o agitación y urgencia? La luz no apura.','¿Te vuelve más humilde y más bueno con los demás, o te hace sentir especial y superior?','¿Pide algo que daña a alguien, o que rompe tu palabra? Entonces no viene de la luz.','¿Coincide con lo que enseñan los sabios de tu tradición?','Esperá. No decidas nada grande en desolación ni en euforia.','Contalo a alguien con criterio. Lo verdadero resiste la luz del día.']}
+];
+
+/* ---------- Facultades ---------- */
+const FAC=[
+ {n:'Visualización',lv:'ok',lt:'Entrenable y medible',nm:'Dharana y dhyana (yoga); yoga de la deidad (Tíbet); hitbonenut (Cábala); composición de lugar (San Ignacio).',src:'Yoga Sutras III.1-3; Visuddhimagga (kasinas); Abulafia, Jayei Olam Habá.',
+  m:['Kasina: mirá un disco de color liso, o la llama de una vela, hasta poder verlo igual con los ojos cerrados.','Cuando la imagen interna sea estable, agrandala, achicala y movela a voluntad.','Pasá a figuras: una letra hebrea, un yantra, una sefirá con su color.','Veinte minutos diarios. La estabilidad de esta imagen es la base de todas las demás facultades.'],
+  adv:'Sin atención estable, lo que sigue es fantasía. Todas las escuelas empiezan acá.',t:'Cronometrá cuántos segundos sostenés la imagen nítida sin que se deforme. Anotalo cada semana.',ev:'La imaginería mental y su efecto en atención y calma están muy estudiados.'},
+ {n:'Clarisentiencia',lv:'ok',lt:'Entrenable en su base',nm:'Vedananupassana (atención a las sensaciones, budismo); firasa (sufismo); sentir la Shejiná (Cábala).',src:'Satipatthana Sutta; Al-Qushayri, Risala.',
+  m:['Escaneo corporal diario de 15 minutos, de la cabeza a los pies, sin cambiar nada.','Antes de entrar a un lugar o ver a alguien, registrá tu estado. Al salir, registrá qué cambió.','Con el tiempo distinguís lo tuyo de lo que el otro te despierta.','Los sufíes agregan: limpiar el corazón de rencor, porque el espejo sucio no refleja.'],
+  adv:'Sentir mucho no es saber. Se confirma preguntando, nunca suponiendo.',t:'Anotá tu impresión de una persona antes de hablar. Después preguntale cómo está. Contá aciertos y errores durante un mes.',ev:'La interocepción y la empatía son reales y entrenables. Que capten algo fuera del cuerpo no está demostrado.'},
+ {n:'Clarividencia',lv:'t',lt:'Camino tradicional · comprobalo vos',nm:'Dibba-cakkhu, el ojo divino (budismo); conocimiento de lo sutil, oculto y lejano (yoga); kashf, desvelamiento (sufismo); visión profética (Biblia).',src:'Yoga Sutras III.25-26; Visuddhimagga XIII; Samaññaphala Sutta.',
+  m:['Requisito: concentración profunda (jhana o samadhi) alcanzada con la práctica de visualización.','Método budista: kasina de luz. Extendé la luz interna cada vez más lejos y dirigila hacia lo que querés conocer.','Método del yoga: samyama (atención, absorción y unión juntas) sobre la luz interior del corazón.','Los textos hablan de años de práctica diaria, con maestro.'],
+  adv:'Patanjali la cuenta entre los poderes que distraen de la meta. El Buda prohibió exhibirla.',t:'Usá la Sala de comprobación de esta página: cien intentos por tanda, sin saltear ninguno.',ev:'En pruebas controladas no se obtuvo hasta hoy un resultado que se repita.'},
+ {n:'Clariaudiencia',lv:'t',lt:'Camino tradicional · comprobalo vos',nm:'Dibba-sota, el oído divino (budismo); nada, el sonido interior (yoga); bat kol, «hija de la voz» (Talmud).',src:'Hatha Yoga Pradipika IV; Visuddhimagga XIII; Talmud, Yomá 9b.',
+  m:['Nada yoga: sentate en silencio, tapate los oídos con los pulgares y escuchá el sonido interno del oído derecho.','Seguí el sonido más fino que encuentres; cuando aparezca otro más sutil, pasá a ese.','Método budista: desde la concentración, atendé sonidos cada vez más lejanos y tenues.','Diez minutos diarios, de noche.'],
+  adv:'Oír voces que ordenan, insultan o asustan no es esta facultad: es motivo para consultar a un profesional.',t:'Llevá registro de lo que «escuchás» y verificá después lo que sea verificable.',ev:'Sin resultados que se repitan en condiciones controladas.'},
+ {n:'Telepatía',lv:'t',lt:'Camino tradicional · comprobalo vos',nm:'Cetopariya-ñana, conocer la mente ajena (budismo); para-citta-jñana (yoga); firasa (sufismo: «cuídense de la mirada del creyente, que ve con la luz de Dios»).',src:'Yoga Sutras III.19; Visuddhimagga XIII.',
+  m:['Base: una mente tan quieta que distinga un pensamiento propio de uno que llega.','Método del yoga: samyama sobre las señales del otro, su rostro, su voz, su gesto.','Método budista: desde la concentración, observar el «color» del corazón del otro: agitado, sereno, contraído.','Práctica diaria accesible: diez minutos escuchando a alguien sin interrumpir ni preparar tu respuesta.'],
+  adv:'Los sutras aclaran que se percibe el estado de la mente del otro, no el contenido de lo que piensa. Y entrar sin permiso es una falta.',t:'De a dos: uno mira una de cinco figuras al azar, el otro anota cuál percibe. Cien intentos; el azar da veinte.',ev:'Los experimentos (Ganzfeld) dieron resultados discutidos que no se sostienen al repetirlos.'},
+ {n:'Canalización e inspiración',lv:'t',lt:'Camino tradicional · con discernimiento',nm:'Nevuá y ruaj hakodesh (profecía y espíritu de santidad, judaísmo); maguid (Cábala); carisma de profecía (cristianismo); ilham (sufismo).',src:'Jaim Vital, Shaaré Kedushá; Yosef Karo, Maguid Mesharim; 1 Corintios 14; Maimónides, Guía II.36.',
+  m:['Vital pone cuatro escalones: corregir el carácter (ira, soberbia, tristeza, palabra vana), cumplir, estudiar, y recién entonces aislarse a meditar.','Purificación previa: agua, silencio, tzedaká.','Recogimiento: vaciar la mente de todo lo mundano y sostener la atención en lo alto.','Escribir lo que llegue sin corregir, y leerlo al día siguiente.','Pasarlo por el ritual «Discernir un mensaje» de esta casa.'],
+  adv:'Maimónides: la imaginación sin intelecto ni ética produce falsos profetas. Vital: quien busca esto con orgullo recibe engaño.',t:'Guardá cada escrito con fecha. A los tres meses revisá: ¿qué resultó verdadero, bueno y útil?',ev:'No hay forma externa de verificar la fuente; sí se puede juzgar el fruto.'},
+ {n:'Registros akáshicos y memoria profunda',lv:'t',lt:'Raíces antiguas · nombre moderno',nm:'Lawh Mahfuz, la Tabla Preservada (Corán 85:22); Sefer HaJaim, el Libro de la Vida (Salmo 69, Daniel 12); alaya-vijñana, conciencia-almacén (budismo Yogachara); pubbenivasa, recuerdo de vidas pasadas.',src:'Lankavatara Sutra; Visuddhimagga XIII; Yoga Sutras III.18. El término «registros akáshicos» es de la Teosofía (Sinnett, 1883; Steiner, 1904).',
+  m:['Método budista: desde la concentración, recordá hacia atrás: lo último que hiciste hoy, lo anterior, ayer, la semana pasada, cada vez más atrás, sin saltear.','Método del yoga: samyama sobre las impresiones latentes (samskaras) que aparecen en meditación.','Forma moderna: aquietarse, formular una sola pregunta sobre tu propio camino y escribir lo que surja.','Nunca «leas» a otra persona sin que te lo pida.'],
+  adv:'Lo que aparece puede ser memoria, imaginación o deseo. Tratalo como una intuición a contrastar y no tomes decisiones de salud, dinero o vínculos por eso.',t:'El ejercicio de recordar hacia atrás se comprueba solo: cada semana llegás más lejos y con más detalle.',ev:'Ninguna lectura dio información comprobable de forma consistente. El entrenamiento de memoria sí mejora la memoria.'},
+ {n:'Sueños lúcidos y yoga del sueño',lv:'ok',lt:'Entrenable y medible',nm:'Milam, yoga del sueño (Seis Yogas de Naropa, Tíbet); incubación (templos de Asclepio, Grecia); el sueño como «un sesentavo de profecía» (Talmud, Berajot 57b).',src:'Seis Yogas de Naropa; Talmud, Berajot 55-57; Artemidoro, Oneirocritica.',
+  m:['Cuaderno de sueños: anotá apenas despertás, sin moverte, todos los días.','Durante el día, preguntate en serio varias veces: «¿estoy soñando?», y mirá tus manos.','Al dormirte, repetí: «esta noche voy a darme cuenta de que sueño».','En el sueño lúcido, la instrucción tibetana es no jugar: sentate a meditar adentro del sueño.'],
+  adv:'No sacrifiques horas de sueño. Si aparece parálisis con miedo, relajá el cuerpo y respirá: pasa sola.',t:'Contá sueños recordados y sueños lúcidos por mes. En ocho semanas el cambio se ve en el cuaderno.',ev:'El sueño lúcido está verificado en laboratorio desde 1975.'},
+ {n:'Ver a distancia y ver sin los ojos',lv:'t',lt:'Camino tradicional · comprobalo vos',nm:'Conocimiento de lo oculto y lejano (yoga); el ojo divino aplicado a distancia (budismo); kefitzat haderej y visión a distancia en relatos jasídicos.',src:'Yoga Sutras III.25; Visuddhimagga XIII.',
+  m:['Es una aplicación de la clarividencia: primero concentración profunda y luz interior estable.','Los textos indican dirigir esa luz al lugar u objeto que se quiere conocer.','Ejercicio preparatorio real: caminá despacio por tu casa con los ojos cerrados, atento al oído, al tacto y al aire en la piel.'],
+  adv:'En las demostraciones públicas con venda, los controles estrictos encontraron siempre una rendija. No te engañes ni engañes.',t:'Pedile a alguien que deje un objeto sobre una mesa en otro cuarto. Describilo por escrito antes de mirar. Veinte intentos, y que un tercero juzgue.',ev:'El programa de «visión remota» del gobierno de EE. UU. cerró en 1995 por no dar información útil.'},
+ {n:'Telequinesis',lv:'no',lt:'La tradición la llama rarísima',nm:'Iddhi-vidha, poderes sobre la materia (budismo); siddhis de ligereza y dominio de los elementos (yoga).',src:'Yoga Sutras III.39-45; Kevatta Sutta; Visuddhimagga XII.',
+  m:['Los textos la reservan a quien domina los cuatro niveles de absorción y las kasinas de los elementos (tierra, agua, fuego, aire).','No hay un ejercicio honesto para ofrecer a quien empieza.'],
+  adv:'El Buda expulsaba de la orden al monje que exhibía estos poderes, y decía que el único milagro que vale es el de la enseñanza.',t:'Un molinillo de papel sobre una aguja, bajo un vaso de vidrio dado vuelta para cortar el aire y el calor de las manos. Si no gira así, antes giraba por el aire.',ev:'Ningún caso resistió condiciones controladas, y hay una larga historia de trucos.'}
+];
+
+/* ---------- Biblioteca ---------- */
+const EMERALD=['Verdadero, sin mentira, cierto y muy verdadero.','Lo que está abajo es como lo que está arriba, y lo que está arriba es como lo que está abajo, para obrar los milagros de una sola cosa.','Y así como todas las cosas provinieron del Uno, por la mediación del Uno, así todas nacieron de esta cosa única, por adaptación.','Su padre es el Sol, su madre la Luna; el viento la llevó en su vientre; su nodriza es la Tierra.','El padre de toda perfección del mundo entero está aquí.','Su fuerza es íntegra si se convierte en tierra.','Separarás la tierra del fuego, lo sutil de lo denso, suavemente y con gran ingenio.','Asciende de la tierra al cielo y de nuevo desciende a la tierra, y recibe la fuerza de lo superior y de lo inferior.','Así tendrás la gloria del mundo entero; por eso huirá de ti toda oscuridad.','Esta es la fuerza fuerte de toda fortaleza, porque vencerá toda cosa sutil y penetrará toda cosa sólida.','Así fue creado el mundo.','De aquí saldrán admirables adaptaciones, cuyo modo es este.','Por eso fui llamado Hermes Trismegisto, poseedor de las tres partes de la filosofía del mundo entero.','Completo está lo que dije sobre la operación del Sol.'];
+const HUBS=[['Sefaria','https://www.sefaria.org','Torá, Salmos, Talmud, Zohar, Sefer Yetzirá y Bahir en hebreo con traducción.'],['Sacred Texts','https://sacred-texts.com','El archivo más grande de textos religiosos y esotéricos de dominio público: Enoc, Upanishads, Corpus Hermeticum, I Ching, Platón.'],['Gnosis Archive','http://www.gnosis.org','La Biblioteca de Nag Hammadi completa y otros textos gnósticos.'],['Esoteric Archives','http://www.esotericarchives.com','Ediciones cuidadas de Agrippa, el Arbatel, John Dee y manuscritos de magia renacentista.'],['Internet Archive','https://archive.org','Ediciones escaneadas de casi todo, incluidas traducciones antiguas al español.'],['Biblioteca Digital de los Rollos del Mar Muerto','https://www.deadseascrolls.org.il','Los manuscritos de Qumrán fotografiados en alta resolución.']];
+const RARE=[['Libro de Enoc (1 Enoc)','Siglos III–I a. C. Fuera de la Biblia, salvo en la Iglesia etíope. Ángeles, los Vigilantes, viajes celestiales; de acá salen los nombres de los arcángeles.'],['Biblioteca de Nag Hammadi','Trece códices gnósticos enterrados en Egipto hacia el año 367, tras la condena de los libros no canónicos; hallados en 1945. Incluye el Evangelio de Tomás.'],['Corpus Hermeticum y Asclepio','Egipto helenístico, siglos I–III. Perdido en Occidente hasta que Ficino lo tradujo en 1463.'],['Sefer Yetzirá','Entre los siglos II y VI. Seis páginas sobre cómo se crea el mundo con 10 números y 22 letras.'],['Literatura de Hejalot y Merkabá','Siglos III–VIII. Ascenso por los siete palacios celestiales; la Mishná restringía su enseñanza a un solo discípulo por vez.'],['Zohar','Castilla, hacia 1280. La obra central de la Cábala.'],['Shaaré Kedushá, de Jaim Vital','Siglo XVI. El manual de cómo alcanzar la inspiración. Su cuarta parte, la de las técnicas, quedó sin imprimir durante cuatro siglos.'],['Sefer Raziel HaMalaj','Compilación medieval, impresa en Ámsterdam en 1701. Ángeles, nombres y cosmología; se guardaba en las casas como protección.'],['De occulta philosophia, de Agrippa','1533. La enciclopedia de la magia natural, celeste y ceremonial del Renacimiento. Estuvo en el Índice de libros prohibidos.'],['Arbatel','Basilea, 1575. Cuarenta y nueve aforismos de magia devota: ayudar al prójimo, vivir con rectitud, pedir solo a Dios.'],['Monas Hieroglyphica, de John Dee','1564. Un solo símbolo geométrico explicado en 24 teoremas.'],['Papiros Mágicos Griegos','Egipto, siglos II a. C. a V d. C. Himnos, oraciones y fórmulas de todo tipo; para leer como historia.'],['Oráculos Caldeos','Siglo II. Fragmentos sobre el alma y el fuego divino; la escritura sagrada de los neoplatónicos.'],['Lo que queda afuera','La Goetia, los grimorios de evocación de demonios y los libros de maleficios existen en esos mismos archivos. No son de luz y esta casa no los enseña.']];
+const CANON=[['Yoga','Yoga Sutras de Patanjali (libro III para las facultades); Hatha Yoga Pradipika; Upanishads Mandukya y Brihadaranyaka.'],['Budismo','Visuddhimagga de Buddhaghosa, capítulos XII y XIII; Satipatthana Sutta; Bardo Thodol; Seis Yogas de Naropa.'],['Cábala','Aryeh Kaplan, Meditación y Cábala; Gikatilla, Shaaré Orá; Scholem, Las grandes tendencias de la mística judía.'],['Cristianismo','Filocalia; La nube del no saber; Ejercicios Espirituales de San Ignacio; Las moradas de Santa Teresa.'],['Islam y sufismo','Corán; Al-Ghazali, El salvador del error; Ibn Arabi, Los engarces de la sabiduría; Rumi, Masnavi.'],['Taoísmo','Tao Te Ching; Zhuangzi; I Ching (traducción de Wilhelm); El secreto de la flor de oro.'],['Grecia y Egipto','Platón, Timeo; Euclides, Elementos; Plotino, Enéadas; Libro de la Salida al Día (Libro de los Muertos).'],['Geometría sagrada','Robert Lawlor, Geometría sagrada; Keith Critchlow, Order in Space; Luca Pacioli, La divina proporción.']];
+const TODAY=[['Modé Aní y lavado de manos','Al despertar'],['Shemá o Gayatri de la mañana','Una palabra por respiración'],['Diez minutos de visualización','Vela, letra o Sri Yantra'],['Oración del corazón','Durante el día, con la respiración'],['Un gesto por alguien','Tzedaká: una moneda o un acto concreto'],['Hitbodedut','Diez minutos hablando a solas'],['Examen de la noche','Agradecer, revisar, perdonar'],['Shemá al acostarse con los cuatro arcángeles','Ya en la cama']];
+
+/* ---------- Render ---------- */
+const $=id=>document.getElementById(id);
+const ticks=ring(72,101,0).map((p,i)=>L([p[0],p[1]],[p[0]*(i%6?1.03:1.07),p[1]*(i%6?1.03:1.07)],'thin')).join('');
+$('heroSeal').innerHTML=svg('<g class="ga">'+flowerCore(22)+C(0,0,66)+C(0,0,70)+'</g><g class="gb">'+P(ring(3,92,-T/4),'thin')+P(ring(3,92,T/4),'thin')+C(0,0,92)+C(0,0,99,'thin')+ticks+ring(12,84,0).map(p=>C(p[0],p[1],1.7,'dot')).join('')+'</g>','');
+$('footSeal').innerHTML=svg(seed(),'');
+$('wall').innerHTML=WALL.map(w=>'<div class="card glass"><span class="chip">'+w[0]+'</span><div>'+w[1]+'</div><p>'+w[2]+'</p></div>').join('');
+$('symGrid').innerHTML=SYMBOLS.map(s=>'<article class="card glass"><div class="plate">'+svg(s.d(),s.n)+'</div><div><h3>'+s.n+(s.h?' <span class="heb" style="font-size:1.1rem">'+s.h+'</span>':'')+'</h3><span class="chip">'+s.age+'</span></div><dl><dt>Qué es</dt><dd>'+s.q+'</dd><dt>De dónde viene</dt><dd>'+s.o+'</dd><dt>Para qué</dt><dd>'+s.p+'</dd><dt>Cuándo</dt><dd>'+s.c+'</dd><dt>Cómo se usa</dt><dd>'+s.u+'</dd></dl></article>').join('');
+const verses=v=>v?'<p class="verses-t">'+v[0]+'</p><ol class="verses">'+v[1].map(x=>'<li>'+x+'</li>').join('')+'</ol>':'';
+$('riteList').innerHTML=RITES.map(r=>'<details class="rite glass" data-c="'+r.c+'"><summary><h3>'+r.n+'</h3><span class="chip t">'+r.t+'</span><span class="when">'+r.w+'</span></summary><div class="body"><dl><dt>Para qué</dt><dd>'+r.para+'</dd>'+(r.need?'<dt>Necesitás</dt><dd>'+r.need+'</dd>':'')+'</dl><ol class="steps">'+r.steps.map(s=>'<li>'+s+'</li>').join('')+'</ol>'+(r.say?r.say.map(s=>'<div class="say"><em>'+s[0]+'</em>'+(s[1]?'<small>'+s[1]+'</small>':'')+'</div>').join(''):'')+verses(r.full)+verses(r.full2)+'</div></details>').join('');
+$('filters').innerHTML=CATS.map((c,i)=>'<button type="button" data-c="'+c[0]+'" aria-pressed="'+(i===0)+'">'+c[1]+'</button>').join('');
+$('filters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const c=b.dataset.c;
+  $('filters').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  $('riteList').querySelectorAll('details').forEach(d=>{d.hidden=c!=='todo'&&d.dataset.c!==c})});
+$('facList').innerHTML=FAC.map(x=>'<details class="rite glass"><summary><h3>'+x.n+'</h3><span class="chip '+x.lv+'">'+x.lt+'</span></summary><div class="body"><dl><dt>Cómo la llaman las tradiciones</dt><dd>'+x.nm+'</dd><dt>Dónde está escrito</dt><dd>'+x.src+'</dd><dt>El método tradicional</dt></dl><ol class="steps">'+x.m.map(s=>'<li>'+s+'</li>').join('')+'</ol><dl><dt>Lo que advierte la tradición</dt><dd>'+x.adv+'</dd><dt>Cómo comprobarlo vos</dt><dd>'+x.t+'</dd><dt>Estado de la evidencia</dt><dd>'+x.ev+'</dd></dl></div></details>').join('');
+$('emerald').innerHTML='<details class="rite glass" open><summary><h3>Tabla Esmeralda, completa</h3><span class="chip t">Hermetismo</span><span class="when">Texto árabe del siglo VIII · versión latina del XII</span></summary><div class="body"><p class="intro">El texto fundador de la alquimia, atribuido a Hermes Trismegisto. Son catorce frases; Newton hizo su propia traducción. De acá sale «como es arriba, es abajo».</p><ol class="verses">'+EMERALD.map(x=>'<li>'+x+'</li>').join('')+'</ol></div></details>';
+$('hubs').innerHTML=HUBS.map(h=>'<li><b><a href="'+h[1]+'">'+h[0]+'</a></b><span>'+h[2]+'</span></li>').join('');
+$('rare').innerHTML=RARE.map(h=>'<li><b>'+h[0]+'</b><span>'+h[1]+'</span></li>').join('');
+$('canon').innerHTML=CANON.map(h=>'<li><b>'+h[0]+'</b><span>'+h[1]+'</span></li>').join('');
+
+/* Archivos */
+const DOCS=[
+ {n:'Análisis y evaluación del Proceso Gateway',a:'Ejército de EE. UU. · 9 de junio de 1983 · publicado por la CIA en 2003',u:'https://www.cia.gov/readingroom/document/cia-rdp96-00788r001700210016-5',
+  q:'Informe de 29 páginas del teniente coronel Wayne M. McDonnell a su comandante en Fort Meade, sobre el curso de la Monroe Institute para alterar la conciencia con sonido (Hemi-Sync).',
+  d:'Describe el universo como un holograma de energía en vibración, y la conciencia como capaz de salir del espacio-tiempo. Detalla las técnicas: la caja de conversión de energía, la afinación resonante, la afirmación, los estados Focus 10, 12, 15 y 21, la resolución de problemas, el «patterning» para lograr objetivos y la salida del cuerpo.',
+  x:'Es la interpretación de un oficial, apoyada en física especulativa de los años setenta, y no un experimento. El mismo informe reconoce que en las pruebas de leer un número de diez cifras fuera del cuerpo nadie acertó las diez.'},
+ {n:'Colección Stargate',a:'CIA y Agencia de Inteligencia de Defensa · 1972–1995',u:'https://www.cia.gov/readingroom/collection/stargate',
+  q:'Miles de páginas desclasificadas del programa de «visión remota»: sesiones, protocolos de entrenamiento e informes del Stanford Research Institute.',
+  d:'Durante más de veinte años y unos veinte millones de dólares, militares y civiles entrenados intentaron describir lugares lejanos. Están las transcripciones originales de las sesiones y los manuales del método.',
+  x:'Que haya existido el programa prueba que se tomó en serio, no que funcionara. La lectura explica el método de entrenamiento completo, con las seis etapas, a partir de dos documentos oficiales de 1985 y 1986. Describe lo que el manual enseña; no prueba que funcione.'},
+ {n:'Evaluación de la visión remota',a:'American Institutes for Research, por encargo de la CIA · 29 de septiembre de 1995',u:'https://www.cia.gov/readingroom/docs/CIA-RDP96-00791R000200180006-4.pdf',
+  q:'La auditoría externa que cerró Stargate. Incluye dos informes enfrentados: la estadística Jessica Utts y el psicólogo Ray Hyman.',
+  d:'Utts concluye que en laboratorio hubo un efecto estadístico por encima del azar. Hyman responde que es prematuro: faltan réplicas independientes y hay fallas de método. Ambos coinciden en que hacen falta mejores controles.',
+  x:'La conclusión operativa es que en ningún caso la información sirvió para guiar una operación de inteligencia. Es el documento más riguroso de todos: conviene leer los dos informes enteros.'},
+ {n:'Técnicas para mejorar la comunicación hombre-máquina',a:'NASA · Targ, Cole y Puthoff, Stanford Research Institute · 1974',u:'https://ntrs.nasa.gov/citations/19790003559',
+  q:'Estudio financiado por la NASA que usó un generador aleatorio de cuatro estados como máquina para enseñar percepción extrasensorial.',
+  d:'El sujeto debía adivinar cuál de cuatro opciones había elegido la máquina, con respuesta inmediata, para ver si el acierto mejoraba con la práctica. Es el mismo diseño de la Sala de comprobación de esta casa.',
+  x:'No es una prueba de que la NASA use o valide poderes psíquicos. El prólogo de la propia NASA dice que la revisión de su laboratorio no encontró evidencia de percepción extrasensorial cuando el registro era automático, y que cortó el apoyo. Los autores opinaban distinto; la lectura completa trae los dos lados y los números.'},
+ {n:'Expediente «Percepción extrasensorial»',a:'FBI · The Vault · 1957–1960',u:'https://vault.fbi.gov/Extra-Sensory%20Perception',
+  q:'Carpeta del FBI sobre una persona que afirmaba poder enseñar a ver con los ojos vendados y a través de paredes.',
+  d:'Muestra cómo el FBI recibió la propuesta, la consultó y la evaluó como posible herramienta.',
+  x:'El FBI cerró el asunto sin tomar ninguna acción. Según estos papeles nunca hizo una prueba controlada propia: se apoyó en lo que informaron otras agencias. La lectura recorre los catorce documentos en orden.'},
+ {n:'Enhancing Human Performance',a:'Consejo Nacional de Investigación de EE. UU., por encargo del Ejército · 1988',u:'',
+  q:'Revisión de las técnicas que el Ejército estaba considerando: aprendizaje durante el sueño, visualización, meditación, biofeedback y parapsicología.',
+  d:'Encontró que la práctica mental (ensayar una acción en la imaginación) mejora el desempeño real.',
+  x:'Sobre los fenómenos parapsicológicos concluyó que más de un siglo de investigación no daba justificación científica para su existencia. El comité también visitó la Monroe Institute en 1986 y no encontró evidencia científicamente aceptable para Hemi-Sync, el método del informe Gateway. La lectura es un resumen propio del libro, técnica por técnica.'}
+];
+const GRIN=[
+ ['Quién fue','Neurofisiólogo mexicano (1946–1994), doctorado en Nueva York, profesor de la UNAM y fundador del Instituto Nacional para el Estudio de la Conciencia. Publicó más de cincuenta libros. Desapareció en diciembre de 1994 y el caso nunca se resolvió.'],
+ ['Qué propuso','La teoría sintérgica: existe una estructura de fondo del espacio (la «lattice»), y el cerebro genera un «campo neuronal» que la distorsiona. De esa interacción surge lo que percibimos como realidad. A mayor coherencia entre las neuronas, percepción más amplia. No afirmó que la materia no exista: afirmó que lo que vemos es una interpretación.'],
+ ['Qué midió','El «potencial transferido»: dos personas meditan juntas veinte minutos y luego se separan en cámaras aisladas. A una se le aplican destellos de luz; Grinberg informó que en el electroencefalograma de la otra aparecía una respuesta parecida, en uno de cada cuatro casos. Se publicó en Physics Essays 7(4), 1994, junto al físico Amit Goswami.'],
+ ['Qué pasó después','Hubo intentos de réplica (Wackermann en 2003, Standish en 2004) con resultados débiles y discutidos. Las muestras eran chicas y los críticos señalan problemas estadísticos. Hoy no se considera un hecho establecido, aunque sigue siendo una pregunta abierta y legítima.'],
+ ['Qué te llevás','Su práctica central se puede probar: meditación para aumentar la coherencia, y «observar al observador». Los libros clave son La teoría sintérgica, El cerebro consciente y La creación de la experiencia.']
+];
+const FACTS=[
+ ['Lo que ves es un modelo','El cerebro no recibe la realidad: la predice y corrige con los sentidos. El neurocientífico Anil Seth lo llama «alucinación controlada». Esta es la versión rigurosa de la Matrix, y el modelo se puede entrenar.'],
+ ['El mundo no es localmente real','Premio Nobel de Física 2022 (Aspect, Clauser, Zeilinger): las partículas entrelazadas no tienen propiedades definidas e independientes antes de medirse. Pero no permite enviar señales ni elegir el resultado con la mente.'],
+ ['La materia no es sólida, pero existe','Para la física actual las partículas son excitaciones de campos. Un átomo es casi todo vacío. Eso no vuelve a la materia una ilusión que obedece al pensamiento.'],
+ ['El «observador» no es la conciencia','En mecánica cuántica medir es cualquier interacción física con el entorno (decoherencia). Ningún experimento mostró que haga falta una mente.'],
+ ['Qué es un salto cuántico','El paso de un electrón entre dos niveles de energía: el cambio más chico posible. En 2019 se logró seguirlo y hasta revertirlo en un circuito (Minev y otros, Nature). No es saltar a otra realidad.'],
+ ['Salir del cuerpo es una experiencia real','Se provocó estimulando una zona del cerebro (Blanke, Nature, 2002) y con cámaras y visores (Ehrsson, Science, 2007). Lo que nunca se verificó es percibir algo oculto desde afuera.'],
+ ['La expectativa cambia el cuerpo','El placebo funciona incluso cuando la persona sabe que es placebo (Kaptchuk, 2010). Lo que creés modifica dolor, energía y síntomas, dentro de límites.'],
+ ['Manifestar, con rigor','Fantasear con el resultado baja el esfuerzo y empeora los logros (Gabriele Oettingen). Lo que funciona es el contraste mental más un plan «si pasa X, hago Y» (Peter Gollwitzer).'],
+ ['La hipótesis de la simulación','El argumento de Nick Bostrom (2003) es filosofía seria, pero no hay hasta hoy un experimento que la confirme ni la refute.']
+];
+const PROTOS=[
+ {n:'Secuencia Gateway, tal como la describe el informe',w:'30 minutos · 14 días',para:'Probar por tu cuenta el método que evaluó el Ejército.',need:'Auriculares y una pista de tonos binaurales en rango theta (4 a 7 Hz).',
+  steps:['Caja de conversión de energía: imaginá un cofre, guardá ahí cada preocupación y cerralo.','Afinación resonante: inhalá hondo y exhalá con un zumbido largo y grave, sintiendo la vibración en la cabeza. Siete veces.','Afirmación: «Soy más que mi cuerpo físico, y deseo profundamente expandir mi conciencia».','Relajación progresiva de los pies a la cabeza hasta llegar a «mente despierta, cuerpo dormido» (Focus 10).','Desde ahí, expandí la atención más allá del cuerpo (Focus 12) y plantéa un problema concreto. No busques la respuesta: soltalo.','Volvé contando de 1 a 10 y anotá enseguida lo que apareció.','Medición: puntuá calma y claridad de 1 a 10 antes y después. Alterná un día con tonos y un día con silencio, y compará los promedios a las dos semanas.']},
+ {n:'Salida del cuerpo, con prueba',w:'De madrugada · varias semanas',para:'Tener la experiencia y verificar si percibís algo real desde ella.',need:'Que otra persona escriba un número de cinco cifras en una hoja y la deje boca arriba sobre un mueble alto, sin decírtelo.',
+  steps:['Dormí cinco horas, levantate veinte minutos y volvé a acostarte boca arriba.','Quedate totalmente quieto. No respondas a la picazón ni a las ganas de moverte.','Cuando aparezcan zumbidos o vibraciones, no te asustes: es el umbral. Imaginá que rodás hacia un costado o que flotás hacia arriba.','Si te ves fuera, andá hasta el mueble y leé el número.','Al volver, anotá el número antes de mirar la hoja.','Cinco cifras correctas es casi imposible por azar (1 en 100.000). Una sola vez bien hecha vale más que cien relatos.']},
+ {n:'Visión remota con juez ciego',w:'20 intentos',para:'El protocolo del Stanford Research Institute, hecho en casa.',need:'Dos personas además de vos, y 80 fotos bien distintas entre sí.',
+  steps:['La persona A elige al azar una foto de un grupo de cuatro y la guarda en un sobre, en otra habitación.','Vos dibujás y describís durante diez minutos lo que percibas: formas, texturas, colores. Sin nombrar objetos.','La persona B, que no sabe cuál era, recibe tu dibujo y las cuatro fotos, y elige la que más se parece.','Acierto si elige la correcta. Recién ahí mirás la foto.','En veinte intentos el azar da cinco. Nueve o más es un resultado para repetir con otra tanda.']},
+ {n:'Manifestar con método (WOOP)',w:'5 minutos cada mañana · 30 días',para:'La forma de cambiar tu realidad que mejor resiste los experimentos.',
+  steps:['Deseo: una meta desafiante y posible para hoy o esta semana.','Resultado: imaginá con todo detalle lo mejor de haberla logrado. Sentilo.','Obstáculo: ¿qué cosa dentro tuyo lo va a frenar? Miralo de frente.','Plan: «Si aparece ese obstáculo, entonces hago tal cosa».','Medición: anotá cada noche si lo cumpliste. Compará con el mes anterior.']},
+ {n:'Cuaderno de sincronicidades y corazonadas',w:'Todos los días · 60 días',para:'Saber si tu intuición acierta más que el azar, sin engañarte.',
+  steps:['Escribí la corazonada o la intención con fecha y hora, antes de saber nada.','Hacela concreta y verificable: quién, qué, cuándo.','Cuando se resuelva, marcá acierto o fallo. Los fallos se anotan igual.','A los sesenta días contá. La memoria solo guarda los aciertos; el cuaderno guarda todo.']},
+ {n:'Ver la construcción',w:'10 minutos por día',para:'Comprobar en vivo que lo que percibís es un modelo de tu cerebro.',
+  steps:['Punto ciego: dibujá una cruz y un punto a 15 cm de distancia. Tapá el ojo izquierdo, mirá la cruz con el derecho y acercá la hoja: el punto desaparece y el cerebro rellena el hueco.','Observar al observador (Grinberg): sentate y preguntate quién está mirando. No respondas con palabras; quedate en la pregunta.','Durante el día, tres veces, frená y notá qué estabas dando por hecho: una cara, un tono, una intención ajena. Preguntate qué dato real tenías.','Medición: contá cuántas de esas suposiciones resultaron ciertas al verificarlas.']}
+];
+const READ={
+0:`<p class="src">Versión en español, ordenada para practicar. Sigue el informe párrafo por párrafo en lo que hace al método (secciones 5 a 10 y 28 a 38) y resume la parte teórica. Las frases entre comillas son del documento.</p>
+<h3>Qué es este documento</h3>
+<p>El teniente coronel Wayne M. McDonnell hizo el curso Gateway de la Monroe Institute y su comandante le pidió evaluar «su mecánica y su utilidad práctica». Él mismo aclara que el estudio «no pretende ser la última palabra».</p>
+<h3>Por qué funcionaría, según el informe</h3>
+<ol><li><strong>Respuesta de seguimiento de frecuencia.</strong> Si el cerebro oye un sonido con la frecuencia de una onda cerebral, tiende a imitarla.</li>
+<li><strong>Tonos binaurales.</strong> Esas frecuencias son demasiado graves para oírse, así que se ponen dos tonos distintos, uno en cada oído. Si difieren en 10 hertz, el cerebro «oye» la diferencia. Por eso hacen falta auriculares estéreo.</li>
+<li><strong>Objetivo.</strong> Relajar el hemisferio izquierdo, llevar el cuerpo al borde del sueño y poner los dos hemisferios en coherencia (de ahí «Hemi-Sync»). Los tonos van casi inaudibles, a veces tapados con sonido de mar.</li>
+<li><strong>Resonancia.</strong> En quietud muy profunda, el corazón baja su fuerza y el cuerpo entero empieza a vibrar a unos 7 ciclos por segundo. El informe sostiene que ese ritmo coincide con el del campo de la Tierra y que así el cuerpo toma energía del entorno.</li></ol>
+<h3>La secuencia de base, hasta Focus 10</h3>
+<ol><li><strong>Caja de conversión de energía.</strong> Visualizás una caja y dejás adentro toda preocupación ajena a la sesión.</li>
+<li><strong>Afinación resonante.</strong> Emitís un solo tono, un zumbido monótono y largo que produce vibración sobre todo en la cabeza. En las cintas se hace junto a un coro que zumba.</li>
+<li><strong>Afirmación Gateway.</strong> Repetís para vos que sos más que un cuerpo físico y que deseás profundamente expandir tu conciencia.</li>
+<li><strong>Entran los tonos.</strong> Prestás atención a las sensaciones que acompañan la sincronización.</li>
+<li><strong>Relajación física progresiva y sistemática</strong>, mientras se suma ruido rosa y blanco, hasta dejar el cuerpo en el umbral del sueño con la mente despierta.</li>
+<li><strong>Globo de energía.</strong> Imaginás un flujo que sale del centro de la coronilla, baja en todas direcciones hasta los pies, sube por dentro del cuerpo y vuelve a salir. El informe dice que mejora el flujo de energía y que además está pensado como protección frente a entidades de menor nivel que pudieran encontrarse fuera del cuerpo.</li></ol>
+<p>Ese estado, cuerpo dormido y mente despierta, es Focus 10.</p>
+<h3>Focus 12: conciencia expandida y sus herramientas</h3>
+<ol><li><strong>Resolución de problemas.</strong> Llenás tu conciencia con el problema y lo proyectás al universo. La respuesta puede llegar enseguida, pero muchas veces llega como intuición en los dos o tres días siguientes: de golpe sabés la respuesta entera, a veces sin palabras, o como símbolos visuales que hay que interpretar después.</li>
+<li><strong>Patterning (modelado).</strong> Para lograr un objetivo físico, emocional o intelectual. Te concentrás en el objetivo, lo extendés a toda tu conciencia y lo proyectás al universo «con la intención de que el objetivo deseado ya es un hecho logrado», destinado a realizarse en el plazo que fijás. Cuanto más complejo y más lejos de tu realidad actual, más tiempo necesita. Los instructores advierten no forzar el ritmo, porque la persona podría «dislocar su realidad actual con consecuencias drásticas».</li>
+<li><strong>Respiración de colores.</strong> Imaginás colores de forma muy vívida para activar y equilibrar la energía del cuerpo. Es una técnica de sanación y revitalización; la mente es el único agente.</li>
+<li><strong>Barra de energía.</strong> Imaginás un punto de luz pequeño que cargás hasta que pulsa con fuerza, lo estirás en un cilindro brillante y vibrante, y con él canalizás energía a las partes del cuerpo que quieras revitalizar.</li>
+<li><strong>Visión remota.</strong> Convertís la barra en un vórtice que gira y por él enviás la imaginación en busca de información nueva. El símbolo sirve para darle la orden al hemisferio derecho, que entiende imágenes y no palabras.</li>
+<li><strong>Mapa vivo del cuerpo.</strong> Imaginás el contorno de tu cuerpo con sus sistemas (nervioso, circulatorio) en distintos colores, y aplicás la barra de energía con chorros de color sobre la zona a equilibrar.</li></ol>
+<h3>Focus 15 y Focus 21</h3>
+<ul><li><strong>Focus 15, viaje al pasado.</strong> El tiempo se visualiza como una rueda enorme cuyos rayos dan acceso a distintas partes del pasado. El informe dice que es muy difícil: menos del cinco por ciento lo logra del todo en los siete días del curso.</li>
+<li><strong>Focus 21, el futuro.</strong> El más avanzado. Salvo excepciones, solo lo alcanza quien lleva mucho tiempo meditando o meses o años con las cintas.</li></ul>
+<h3>Salida del cuerpo</h3>
+<p>El instituto aclara que el curso no fue creado solo para eso ni garantiza lograrlo; una sola cinta trata el tema. Las maniobras son simples:</p>
+<ul><li>Rodar hacia un costado.</li><li>Levantarse rígido, de cabeza, como un poste, hasta quedar de pie a los pies del cuerpo.</li><li>Deslizarse hacia afuera por la cabeza o por los pies.</li></ul>
+<p>Según el informe hacen falta tres condiciones: quietud corporal profunda con resonancia cercana a 7 hertz, sincronización de los dos hemisferios, y después estimular el hemisferio derecho hacia un estado de alerta. Un ex instructor aseguraba mejores resultados llevando primero a la persona a sueño REM y usando ahí las cintas.</p>
+<h3>El límite que el propio informe reconoce</h3>
+<blockquote>Se hicieron numerosos experimentos en los que personas fuera del cuerpo debían leer diez números generados por computadora en un laboratorio. La mayoría obtuvo suficientes dígitos como para indicar que su conciencia estaba presente, pero «ninguno logró jamás acertar los diez».</blockquote>
+<p>McDonnell lo atribuye a la distorsión: huellas del pasado en el mismo lugar, formas de pensamiento que se mezclan con lo físico, e imágenes percibidas al revés.</p>
+<h3>El plan que propone al final</h3>
+<ol><li>Usar las cintas para lograr foco y sincronización.</li><li>Sumar frecuencias de sueño REM para aquietar el hemisferio izquierdo.</li><li>Enseñar autohipnosis para entrar en estado profundo a voluntad.</li><li>Usar la autosugestión para avanzar rápido en los ejercicios de Focus 12.</li><li>Repetir con la sugestión de que la salida del cuerpo va a ocurrir y va a ser recordada.</li><li>Repetir hasta controlarla de forma consciente.</li><li>Abordar Focus 15 y 21 desde fuera del cuerpo.</li><li>Enviar tres personas al mismo objetivo, una en el presente, una en Focus 15 y una en Focus 21, y comparar lo que traen.</li><li>Fomentar el autoconocimiento pleno de cada participante, para ganar objetividad y quitar bloqueos.</li><li>Estar preparados intelectualmente para posibles encuentros con «formas de energía inteligentes y no corpóreas».</li><li>Que grupos en Focus 12 unan su conciencia para proteger áreas sensibles de presencias no deseadas.</li><li>Que los avanzados sostengan patrones de logro para ayudar a sus compañeros.</li></ol>
+<h3>Sistemas de creencias</h3>
+<p>Dedica una sección a mostrar que su modelo no choca con las religiones: cita la red de perlas de Indra, donde cada perla refleja a todas, las enseñanzas tibetanas sobre el mundo como puro movimiento, y dice que el Absoluto en reposo «es un concepto salido de la filosofía mística hebrea».</p>
+<h3>Para leerlo con criterio</h3>
+<p>La física que usa (el universo como holograma, la resonancia del corazón según Itzhak Bentov) era especulativa en 1983 y no fue confirmada. El valor del documento está en que describe un método completo, paso a paso, y admite sus límites. El protocolo para probarlo está más abajo, en «Protocolos para el día a día».</p>`,
+1:`<p class="src">Síntesis de las conclusiones del informe de 1995. Las cifras son las que figuran en el documento.</p>
+<h3>Qué se evaluó</h3>
+<p>El programa Star Gate tenía tres partes: operaciones (usar videntes remotos para obtener inteligencia), investigación de laboratorio y seguimiento de lo que hacían otros países. La CIA encargó la revisión a un instituto externo, que convocó a dos expertos con posiciones opuestas y revisó unas 80 publicaciones.</p>
+<h3>Lo que concluyó Jessica Utts, estadística</h3>
+<ul><li>El funcionamiento psíquico está bien establecido.</li><li>Los resultados están muy por encima de lo esperable por azar.</li><li>Los argumentos de fallas de método quedan refutados.</li><li>Efectos de magnitud similar se repitieron en otros laboratorios del mundo.</li></ul>
+<h3>Lo que concluyó Ray Hyman, psicólogo</h3>
+<ul><li>Los hallazgos no justifican afirmar que la cognición anómala existe.</li><li>No se eliminó por completo la posibilidad de fallas de método.</li><li>Los resultados no coinciden con los de otros laboratorios de parapsicología.</li></ul>
+<h3>En qué coincidieron los dos</h3>
+<ul><li>Los experimentos más recientes no tenían las debilidades de los primeros.</li><li>Los efectos son demasiado grandes y consistentes para descartarlos como casualidad estadística.</li><li>Se obtuvo un efecto estadísticamente significativo.</li></ul>
+<h3>Los números</h3>
+<ul><li>770 sesiones en el Stanford Research Institute: tamaño de efecto 0,209.</li><li>455 sesiones en SAIC: tamaño de efecto 0,230.</li><li>En pruebas de otros laboratorios donde el azar da 25 % de aciertos, se obtuvo entre 32 % y 37 %.</li></ul>
+<p>Es un efecto chico: sirve para discutir si existe, no para ver un objetivo con claridad.</p>
+<h3>Utilidad en operaciones reales</h3>
+<ul><li>Se revisaron 40 tareas operativas.</li><li>La información fue inconsistente, imprecisa en los detalles y necesitó mucha interpretación subjetiva.</li><li>Nunca se usó para guiar una operación de inteligencia.</li><li>Los usuarios puntuaron la exactitud con un promedio de 3,0 sobre 6.</li></ul>
+<h3>Recomendación final</h3>
+<p>No se justifica seguir usando la visión remota en inteligencia. Utts agregó que no vale la pena gastar más en buscar pruebas, y que los experimentos futuros deberían apuntar a entender cómo funciona.</p>
+<h3>Qué te sirve para practicar</h3>
+<p>Los protocolos buenos tenían tres cosas: el objetivo se elige al azar, quien juzga no sabe cuál era, y se cuenta cada sesión, también las fallidas. Es el diseño de «Visión remota con juez ciego», más abajo.</p>`,
+2:`<p class="src">La colección tiene miles de páginas y no hay un único texto para transcribir. Lo que sigue es un resumen del método de entrenamiento que usó la unidad, la «visión remota por coordenadas» de Ingo Swann, tal como lo recuerdo del manual de 1986. No lo cotejé contra el original en esta búsqueda.</p>
+<h3>La idea central</h3>
+<p>La información llega como una señal débil y la mente analítica la tapa enseguida poniéndole nombre. Todo el método consiste en anotar la impresión cruda antes de que la mente adivine.</p>
+<h3>Las etapas</h3>
+<ol><li><strong>Ideograma.</strong> Se recibe una referencia sin sentido (un número al azar) y la mano hace un trazo reflejo. Se anota qué movimiento tuvo y la primera impresión general: tierra, agua, estructura, ser vivo.</li>
+<li><strong>Sensaciones.</strong> Colores, texturas, temperaturas, sonidos, olores. Palabras sueltas, sin objetos.</li>
+<li><strong>Dimensiones.</strong> Alto, ancho, pesado, hueco, curvo. Se empieza a bocetar.</li>
+<li><strong>Matriz.</strong> Se ordena todo en columnas: sensaciones, dimensiones, impacto estético, impacto emocional, cosas tangibles e intangibles.</li>
+<li><strong>Interrogar la señal.</strong> Se toma una palabra ya anotada y se pregunta qué más hay ligado a ella.</li>
+<li><strong>Modelo.</strong> Se arma el objetivo en arcilla o en un dibujo en tres dimensiones.</li></ol>
+<h3>La regla más importante</h3>
+<p>Cada vez que aparece una imagen clara o un nombre («es un puente»), se lo declara como superposición analítica, se lo escribe a un costado, se hace una pausa y se sigue. Casi siempre es una suposición.</p>
+<h3>Para leer en la colección</h3>
+<p>Buscá las transcripciones de sesiones completas: se ve el método, los aciertos parciales y los errores.</p>`
+};
+const DOCFILE={0:'gateway',1:'evaluacion-1995',2:'stargate-metodo',3:'nasa-1974',4:'fbi-esp',5:'nrc-1988'};
+function openLect(title,chip,file,fallback,url){const src=url?'<p class="src">Documento original: <a href="'+url+'">'+url.replace('https://','')+'</a></p>':'';
+  $('readerT').textContent=title;$('readerA').textContent=chip;$('readerB').innerHTML='<p class="src">Abriendo la lectura…</p>';
+  $('reader').hidden=false;$('reader').scrollTop=0;document.body.style.overflow='hidden';$('readerX').focus();
+  const fail=()=>{$('readerB').innerHTML=(fallback||'<p>Esta lectura todavía no está cargada en el sitio. Se está escribiendo; volvé a abrirla más tarde.</p>')+src};
+  if(!file){fail();return}
+  fetch('lecturas/'+file+'.html').then(r=>{if(!r.ok)throw 0;return r.text()}).then(t=>{$('readerB').innerHTML=t+src}).catch(fail)}
+function openReader(i){const d=DOCS[i];openLect(d.n,d.a,DOCFILE[i],READ[i],d.u)}
+function closeReader(){$('reader').hidden=true;document.body.style.overflow=''}
+$('readerX').addEventListener('click',closeReader);$('readerX2').addEventListener('click',closeReader);
+$('reader').addEventListener('click',e=>{if(e.target===$('reader'))closeReader()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('reader').hidden)closeReader()});
+$('docs').innerHTML=DOCS.map((d,i)=>'<article class="card glass"><div><h3>'+d.n+'</h3><span class="chip">'+d.a+'</span></div><dl><dt>Qué es</dt><dd>'+d.q+'</dd><dt>Qué dice</dt><dd>'+d.d+'</dd><dt>Qué no dice</dt><dd>'+d.x+'</dd></dl><div class="acts">'+(DOCFILE[i]||READ[i]?'<button class="btn main" type="button" data-read="'+i+'">Leer</button>':(d.u?'<a href="'+d.u+'">Ver el original</a>':'<span style="color:var(--mute)">Publicado por National Academy Press.</span>'))+'</div></article>').join('');
+const ANG=[
+ {n:'Quiénes son los ángeles',a:'Biblia · Enoc · Corán · Avesta · Cábala',q:'Qué es un ángel en cada tradición y de dónde sale cada idea: las visiones de Isaías y Ezequiel, los Vigilantes de Enoc, los ángeles del Corán, los nueve coros de Pseudo Dionisio y los diez rangos de Maimónides.',f:'angeles-quienes-son'},
+ {n:'Los arcángeles, uno por uno',a:'Miguel · Gabriel · Rafael · Uriel y los demás',q:'Nombre, textos donde aparece, función, dirección, día y color de cada uno, separando lo antiguo de lo renacentista y lo moderno. Metatrón, Sandalfón, el ángel guardián y los 72 nombres.',f:'angeles-arcangeles'},
+ {n:'Oraciones y práctica',a:'Textos enteros y programas paso a paso',q:'Todas las oraciones angélicas completas, y qué hacer cada día, en una novena, en cuarenta días, antes de un viaje, por un enfermo, ante una decisión o ante el miedo. Cómo reconocer y discernir una respuesta.',f:'angeles-oraciones'},
+ {n:'John Dee y las conversaciones angélicas',a:'Inglaterra y Bohemia · 1581–1589',q:'La historia completa: cómo era una sesión, qué recibieron en orden, el alfabeto y las llaves, la ruptura con Kelley, dónde están los manuscritos y qué dicen los historiadores.',f:'angeles-john-dee'}
+];
+const ABR=[
+ {n:'El libro y su historia',a:'Abraham de Worms · siglos XIV–XV',q:'Quién lo escribió, qué cuenta, los manuscritos y sus diferencias, la estructura capítulo por capítulo, su teología y cómo leerlo hoy.',f:'abramelin-libro'},
+ {n:'La operación del Santo Ángel Guardián',a:'Seis o dieciocho meses de retiro',q:'La operación completa y en orden: quién puede hacerla, el oratorio, el aceite y el incienso, las reglas de cada período, los siete días finales y el encuentro con el ángel.',f:'abramelin-operacion'},
+ {n:'El mando sobre los espíritus',a:'Estudio histórico',q:'Lo que el libro dice que viene después del ángel: los tres días de convocación, la jerarquía, el juramento y los cuadrados de palabras. Trata de espíritus que el propio texto llama malignos; se describe lo que dice el libro, sin agregarle nada.',f:'abramelin-espiritus'}
+];
+const lectCards=(L,k)=>L.map((x,i)=>'<article class="card glass"><div><h3>'+x.n+'</h3><span class="chip">'+x.a+'</span></div><p>'+x.q+'</p><div class="acts"><button class="btn main" type="button" data-'+k+'="'+i+'">Leer</button></div></article>').join('');
+$('lectAng').innerHTML=lectCards(ANG,'ang');$('lectAbr').innerHTML=lectCards(ABR,'abr');
+$('lectAng').addEventListener('click',e=>{const b=e.target.closest('[data-ang]');if(b){const x=ANG[+b.dataset.ang];openLect(x.n,x.a,x.f)}});
+$('lectAbr').addEventListener('click',e=>{const b=e.target.closest('[data-abr]');if(b){const x=ABR[+b.dataset.abr];openLect(x.n,x.a,x.f)}});
+$('docs').addEventListener('click',e=>{const b=e.target.closest('[data-read]');if(b)openReader(+b.dataset.read)});
+
+/* Contacto */
+const BEINGS=[
+ {n:'Ángeles',a:'Judaísmo · Cristianismo · Islam',q:'Mensajeros («malaj», «ángelos» y «malak» significan eso). No se les reza: se pide a Dios y ellos son enviados.',s:'Libro de Daniel; Libro de Enoc; Tobías (Rafael); Corán 2:97-98; Pseudo Dionisio, La jerarquía celeste.',m:'Los rituales de la sala «Ángeles» de esta casa: los cuatro arcángeles, Shalom Aleijem, Ángel de la Guarda. La tradición dice que responden con una idea clara, un encuentro oportuno o un sueño, casi nunca con una aparición.'},
+ {n:'El Santo Ángel Guardián',a:'Libro de Abramelín · siglos XIV–XV',q:'El retiro más famoso de Occidente para conocer al propio ángel custodio.',s:'El libro de la magia sagrada de Abramelín el Mago, atribuido a Abraham de Worms. Manuscritos alemanes desde 1608.',m:'Dieciocho meses (seis en la versión francesa): oración al amanecer y al atardecer en un cuarto reservado solo para eso, vida sobria, estudio de textos sagrados, caridad y cada vez más silencio. El libro entero, la operación y la parte de los espíritus están en las tres lecturas de más abajo.'},
+ {n:'Las conversaciones angélicas de John Dee',a:'Inglaterra · 1581–1589',q:'El matemático de la reina Isabel I registró durante años sesiones en las que el vidente Edward Kelley miraba un cristal y dictaba lo que veía y oía.',s:'Diarios de Dee en la Biblioteca Británica; publicados en 1659 por Meric Casaubon. Su espejo de obsidiana y su cristal están en el Museo Británico.',m:'Oración larga antes de cada sesión, un vidente que mira la piedra y un escriba que anota todo con fecha y hora. Lo valioso para vos es el registro riguroso. El sistema que resultó es complejo y sus propios autores terminaron mal entre sí: se estudia como historia.'},
+ {n:'El maguid y Elías',a:'Cábala',q:'Un maguid es una voz maestra que instruye al sabio. La «revelación de Elías» es el encuentro con el profeta como guía.',s:'Yosef Karo, Maguid Mesharim; Jaim Vital, Shaaré Kedushá.',m:'No se llama directamente: se prepara el recipiente con estudio, pureza y recogimiento, y llega o no llega. Karo lo recibía al repasar la Mishná de madrugada.'},
+ {n:'Deidades de meditación',a:'Budismo tibetano · Hinduismo',q:'El yidam o ishta-devata: una forma iluminada (Tara, Chenrezig, Saraswati) con la que el practicante se vincula hasta reconocerla como su propia naturaleza.',s:'Tantras budistas; tradición de los Seis Yogas; Bhakti Sutras.',m:'Visualizás la figura frente a vos con todo detalle, recitás su mantra, recibís su luz y al final la disolvés en vos. Los mantras de Tara y Saraswati están en Rituales.'},
+ {n:'Antepasados',a:'China · África · México · Roma',q:'Honrar a quienes vinieron antes es de las prácticas más antiguas y extendidas de la humanidad.',s:'Culto confuciano a los ancestros; Día de Muertos; los lares romanos; el yahrzeit judío.',m:'Un estante con fotos, una vela y agua fresca. En el aniversario, nombrarlos, agradecer y contar cómo va la familia. Se recuerda y se honra; no se interroga.'},
+ {n:'Formas de energía inteligentes',a:'Informe Gateway · 1983',q:'El documento del Ejército recomienda «estar preparados intelectualmente para posibles encuentros con formas de energía inteligentes y no corpóreas» al salir del espacio-tiempo.',s:'Análisis y evaluación del Proceso Gateway, conclusión, punto J. Robert Monroe, Viajes fuera del cuerpo (1971).',m:'El mismo informe da la protección: el globo de energía antes de cada sesión. Está transcripto en la Sala de archivos.'},
+ {n:'Inteligencias no humanas y extraterrestres',a:'Documentos de gobierno · 1947–2024',q:'Lo que existe publicado: el Proyecto Libro Azul de la Fuerza Aérea (12.618 casos, 701 sin identificar); el informe de Inteligencia Nacional de 2021 (144 casos, uno explicado); el informe del equipo de la NASA de 2023; y el informe histórico de la oficina AARO de 2024.',s:'<a href="https://vault.fbi.gov/UFO">Archivo del FBI</a> · <a href="https://science.nasa.gov/uap/">NASA</a> · <a href="https://www.aaro.mil">AARO</a> · Archivos Nacionales de EE. UU.',m:'Todos concluyen lo mismo: hay casos sin explicar por falta de datos, y ninguna evidencia de origen extraterrestre. La ciencia sí intentó el contacto: el mensaje de Arecibo (1974) y el disco de oro de las Voyager (1977). Hasta hoy no hubo respuesta confirmada.'}
+];
+const CONTACT=[
+ {n:'Protocolo de contacto de luz',w:'30 minutos · mejor al amanecer o antes de dormir',para:'Una forma ordenada y protegida de abrirse a guía, sea de tu ángel, de un maestro o de lo más alto.',need:'Cuaderno, una vela, y no haber tomado alcohol ese día.',
+  steps:['Preparación: lavate las manos y la cara. Ordená el lugar. Hacé un gesto de tzedaká.','Protección: los cuatro arcángeles, o el globo de energía del informe Gateway, o el Salmo 91. Elegí uno y hacelo completo.','Declaración, en voz alta: «Me abro solo a lo que venga de la luz y sirva al bien de todos. Lo demás no tiene permiso».','Aquietate diez minutos con la respiración o con la Oración del corazón.','Una sola pregunta, clara. Decila una vez y soltala.','Quince minutos de silencio receptivo. No busques ni fabriques. Notá imágenes, palabras, sensaciones.','Escribí todo sin corregir, con fecha y hora.','Cierre: «Gracias. Vayan en paz». Apagá la vela, comé algo y caminá unos minutos.','Al día siguiente, pasá lo escrito por «Discernir un mensaje».']},
+ {n:'Cuarenta días con tu ángel',w:'10 minutos por día · 40 días',para:'Una versión corta y sana del retiro de Abramelín.',
+  steps:['Elegí una hora fija y un rincón que uses solo para esto.','Cada día: oración del Ángel de la Guarda, cinco minutos de silencio y una línea en el cuaderno.','Durante el día, pedile ayuda en cosas chicas y concretas, y anotá qué pasó.','Viví esos cuarenta días con más cuidado: palabra limpia, menos pantalla, un acto de bondad diario.','El día cuarenta, releé todo el cuaderno. Buscá patrones, no milagros.']},
+ {n:'Vigilia del cielo, con verificación',w:'Una noche despejada · 90 minutos',para:'Observar el cielo con intención de contacto y saber qué es cada cosa que ves.',need:'Un lugar oscuro, reposera, cuaderno, y en el teléfono un mapa del cielo, un rastreador de satélites y uno de vuelos.',
+  steps:['Mejor de a tres o más. Quince minutos de meditación en silencio para empezar.','Intención en voz alta: saludo de paz a toda inteligencia benévola.','Mirá el cielo sin el teléfono durante una hora. Anotá cada luz: hora exacta, dirección, altura, color, movimiento, duración.','Recién después, verificá cada anotación: planetas y estrellas en el mapa, satélites y la estación espacial en el rastreador, aviones en el de vuelos.','Lo que queda sin explicar después de verificar es tu dato. Guardalo con todos los detalles.','Los informes oficiales dicen que casi todo se identifica cuando hay buenos datos. Tu cuaderno te va a mostrar si a vos te pasa lo mismo.']},
+ {n:'Sueño de encuentro',w:'De noche',para:'Pedir un encuentro en sueños, el canal que casi todas las tradiciones consideran el más seguro.',
+  steps:['Hacé el Shemá al acostarse con los cuatro arcángeles.','Pedí: «Si es para mi bien, que esta noche me encuentre con quien me guía».','Dormite sosteniendo la sensación de estar acompañado.','Al despertar, quedate quieto y anotá todo antes de moverte.','Repetí siete noches seguidas y releé las siete entradas juntas.']}
+];
+$('beings').innerHTML=BEINGS.map(b=>'<article class="card glass"><div><h3>'+b.n+'</h3><span class="chip">'+b.a+'</span></div><dl><dt>Qué es</dt><dd>'+b.q+'</dd><dt>Dónde está escrito</dt><dd>'+b.s+'</dd><dt>Cómo se practica</dt><dd>'+b.m+'</dd></dl></article>').join('');
+$('contactRites').innerHTML=CONTACT.map(r=>'<details class="rite glass"><summary><h3>'+r.n+'</h3><span class="when">'+r.w+'</span></summary><div class="body"><dl><dt>Para qué</dt><dd>'+r.para+'</dd>'+(r.need?'<dt>Necesitás</dt><dd>'+r.need+'</dd>':'')+'</dl><ol class="steps">'+r.steps.map(s=>'<li>'+s+'</li>').join('')+'</ol></div></details>').join('');
+$('grin').innerHTML='<div class="card glass"><dl>'+GRIN.map(g=>'<dt>'+g[0]+'</dt><dd>'+g[1]+'</dd>').join('')+'</dl></div>';
+$('facts').innerHTML=FACTS.map(h=>'<li><b>'+h[0]+'</b><span>'+h[1]+'</span></li>').join('');
+$('protos').innerHTML=PROTOS.map(r=>'<details class="rite glass"><summary><h3>'+r.n+'</h3><span class="when">'+r.w+'</span></summary><div class="body"><dl><dt>Para qué</dt><dd>'+r.para+'</dd>'+(r.need?'<dt>Necesitás</dt><dd>'+r.need+'</dd>':'')+'</dl><ol class="steps">'+r.steps.map(s=>'<li>'+s+'</li>').join('')+'</ol></div></details>').join('');
+
+/* Práctica de hoy */
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const key='casa-luz-'+new Date().toISOString().slice(0,10);let done=store.get(key,{});
+$('todayList').innerHTML=TODAY.map((t,i)=>'<li><label for="hoy'+i+'"><input type="checkbox" id="hoy'+i+'"'+(done[i]?' checked':'')+'><span>'+t[0]+'<small>'+t[1]+'</small></span></label></li>').join('');
+$('todayList').addEventListener('change',e=>{done[e.target.id.replace('hoy','')]=e.target.checked;store.set(key,done)});
+
+/* Sala de comprobación */
+const FIG=['○','△','□','☆','✚'],NAME=['círculo','triángulo','cuadrado','estrella','cruz'];
+let lab=store.get('casa-luz-lab',{n:0,ok:0}),target=Math.floor(Math.random()*5),locked=false;
+function labShow(){const exp=(lab.n/5).toFixed(1);$('labScore').textContent='Aciertos: '+lab.ok+' de '+lab.n+' intentos · por azar se esperan '+exp+(lab.n<100?' · faltan '+(100-lab.n)+' para completar la tanda':' · tanda completa')}
+$('labChoices').innerHTML=FIG.map((g,i)=>'<button type="button" data-i="'+i+'" aria-label="'+NAME[i]+'">'+g+'</button>').join('');
+$('labChoices').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||locked)return;locked=true;const i=+b.dataset.i,hit=i===target;lab.n++;if(hit)lab.ok++;store.set('casa-luz-lab',lab);
+  $('labOut').textContent=(hit?'Acierto. ':'No esta vez. ')+'Era '+NAME[target]+'. La siguiente ya está elegida.';labShow();
+  $('labChoices').querySelectorAll('button').forEach(x=>x.disabled=true);
+  setTimeout(()=>{target=Math.floor(Math.random()*5);locked=false;$('labChoices').querySelectorAll('button').forEach(x=>x.disabled=false)},1400)});
+$('labReset').addEventListener('click',()=>{lab={n:0,ok:0};store.set('casa-luz-lab',lab);$('labOut').textContent='Tanda nueva. Respirá tres veces antes de cada intento.';labShow()});
+labShow();
+
+/* Cielo */
+(function(){const cv=$('stars'),cx=cv.getContext('2d');function draw(){const w=cv.width=innerWidth,h=cv.height=innerHeight;let s=7;const rnd=()=>{s=(s*16807)%2147483647;return s/2147483647};
+  for(let i=0;i<170;i++){const r=rnd()*1.2+.2;cx.globalAlpha=rnd()*.6+.15;cx.fillStyle=rnd()>.85?'#f5e6bb':'#eef0fb';cx.beginPath();cx.arc(rnd()*w,rnd()*h,r,0,T);cx.fill()}}
+  draw();let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(draw,200)})})();
+</script>
+
+</html>
